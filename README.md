@@ -128,4 +128,6 @@ We are using Snakemake to run our pipeline steps. A Snakefile (`bvi_rnaseq.smk`)
 + merge_fastqc_adapter_metrics
 + copy_multiqc_stats
 
-![DAG View](images/dag.png){:height="50%" width="50%"}
+![DAG View](images/dag.png)
+
+<img src="images/dag.png" width="100" height="100">
