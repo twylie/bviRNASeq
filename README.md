@@ -114,3 +114,18 @@ multiqc title: 'BVI RNA-seq'
 multiqc description: 'Initial metric review of sets #1 and #2.'
 sample key: '/example/sample_key.tsv'
 ```
+
+## Snakefile (Snakemake)
+
+We are using Snakemake to run our pipeline steps. A Snakefile (`bvi_rnaseq.smk`) contains the rules for running the pipeline steps. The Snakefile is static and will require no updating for running the pipeline. Currently, the pipeline involves the following rules/steps:
+
++ all
++ link_fastq
++ fastqc_eval
++ run_kallisto
++ run_multiqc
++ merge_kallisto_abundances
++ merge_fastqc_adapter_metrics
++ copy_multiqc_stats
+
+![DAG View](images/dag.png)
