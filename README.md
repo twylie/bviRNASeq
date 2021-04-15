@@ -45,7 +45,7 @@ Currently, the Docker image contains:
 
 Note: The Docker image does not contain the required ancillary reference databases to run the pipeline. The database files are too large to include in the Docker image and will be hosted on `storage1` volumes.
 
-## Reference Databases
+## 3. Human Transcriptome Reference
 
 We will need a human transcriptome reference for [Kallisto](https://pachterlab.github.io/kallisto/) pseudoalignments. The human transcriptome reference files are available here:
 
@@ -66,7 +66,7 @@ example/transcripts.fa
 example/transcripts.fa.ndx
 ```
 
-## Sample Key
+## 4. Sample Key
 
 We will be providing a sample key to the pipeline that associates FASTQ file paths to canonical ids. The file should be tab-delimited and contain the following three fields:
 
@@ -93,7 +93,7 @@ FASTQ Path	Canonical ID	Set ID
 
 The `sample_key.tsv` file should be the superset of FASTQ/ids for a cohort---i.e. it should contain all of your FASTQ files and associated canonical ids.
 
-## Configuration File
+## 5. Configuration File
 
 We will be passing a small configuration file that provides ancillary information for running the pipeline. The configuration file should be formatted as [YAML](https://en.wikipedia.org/wiki/YAML). The configuration file will contain the following fields:
 
@@ -115,7 +115,7 @@ multiqc description: 'Initial metric review of sets #1 and #2.'
 sample key: '/example/sample_key.tsv'
 ```
 
-## Snakefile (Snakemake)
+## 6. Snakefile (Snakemake)
 
 We are using Snakemake to run our pipeline steps. A Snakefile (`bvi_rnaseq.smk`) contains the rules for running the pipeline steps. The Snakefile is static and will require no updating for running the pipeline. Currently, the pipeline involves the following rules/steps:
 
