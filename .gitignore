@@ -1,0 +1,6 @@
+.snakemake/*
+.DS_Store
+*~
+__trash/*
+processing/*
+bin/sample_key/*
