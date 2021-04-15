@@ -1,28 +1,30 @@
 
 # BVI RNA-seq Pipeline
 
-The following instructions outline running the RNA-seq analysis pipeline for the maternal **BVI** (bacterial, virus, and immune response) project. Instructions are intended for those involved with the project at Washington University School of Medicine. As such, instructions will be provided with the assumption processing will take place on WashU RIS `compute1` compute server using `storage1` volumes. 
+The following instructions outline running the RNA-seq analysis pipeline for the **maternal BVI** (bacterial, virus, and immune response) project. Instructions are intended for those involved with the project at Washington University School of Medicine. As such, instructions will be provided with the assumption processing will take place on WashU RIS `compute1` compute server using `storage1` and `scratch1` volumes. 
 
 # Prerequisites
 
-The following prerequisites are required for running the RNA-seq pipeline.
+The following prerequisite components are required for running the RNA-seq pipeline.
 
 1. FASTQ (paired-read files)
 2. Docker Image
-3. Databases
+3. Reference Databases
 4. Sample Metadata
 5. Configuration File
 6. Snakefile (Snakemake)
 
 ## 1. FASTQ (paired-read files)
 
-The pipeline requires paired-end FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ read pairs, tab-delimited, one pair per line. Each FASTQ should have the fully qualified path to the file on disk listed. List all of the samples you wish to analyze in the `FASTQ.fofn` file, the minimum being one read-pair. The path to the `FASTQ.fofn` will be included in the pipeline `config.yaml` configuration file.
+The pipeline requires paired-end FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed. List all of the samples you wish to analyze in a `reads.fofn` file, the minimum being one FASTQ file. The path to the `reads.fofn` will be included in the pipeline `config.yaml` configuration file in the `reads fofn` field.
 
-EXAMPLE:
+Example file in `example/reads.fofn` directory:
 
 ```plaintext
-/path/sample1.R1.fastq  /path/sample1.R2.fastq
-/path/sample2.R1.fastq  /path/sample2.R2.fastq
+/example/HWFCGDSXX_GAATTCGT-GGCTCTGA_S25_L001_R1_001.fastq.gz
+/example/HWFCGDSXX_GAATTCGT-GGCTCTGA_S25_L001_R2_001.fastq.gz
+/example/AGCGATAG-AGGCGAAG_S1_R1_001.fastq.gz
+/example/AGCGATAG-AGGCGAAG_S1_R2_001.fastq.gz
 ```
 
 ## 2. Docker Image
