@@ -130,4 +130,6 @@ We are using Snakemake to run our pipeline steps. A Snakefile (`bvi_rnaseq.smk`)
 
 <img src="images/dag.png" width="75%" height="75%" border=0 style="border:0; text-decoration:none; outline:none">
 
-<img src="images/rulegraph.png" width="85%" height="85%">
+The following example rulegraph shows the workflow for two samples:
+
+<img src="images/rulegraph.png" width="100%" height="100%" border=0 style="border:0; text-decoration:none; outline:none">
