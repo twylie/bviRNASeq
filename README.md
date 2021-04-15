@@ -134,4 +134,21 @@ The following example rulegraph shows the workflow for two samples. Note that Fa
 
 <img src="images/rulegraph.png" width="100%" height="100%" border=0 style="border:0; text-decoration:none; outline:none">
 
-# To be continued...
+# Test Example
+
+We may use the data provided in the `example/` directory to run a simple test using the pipeline. The following test files will be used:
+
+```plaintext
+example
+├── AGCGATAG-AGGCGAAG_S1_R1_001.fastq.gz
+├── AGCGATAG-AGGCGAAG_S1_R2_001.fastq.gz
+├── HWFCGDSXX_GAATTCGT-GGCTCTGA_S25_L001_R1_001.fastq.gz
+├── HWFCGDSXX_GAATTCGT-GGCTCTGA_S25_L001_R2_001.fastq.gz
+├── config.yaml
+├── reads.fofn
+├── sample_key.tsv
+└── transcripts.fa.ndx
+```
+
+NOTE: The files listed above are simulated data and are useful only for testing purposes.
+
