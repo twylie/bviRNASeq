@@ -47,7 +47,7 @@ Note: The Docker image does not contain the required ancillary reference databas
 
 ## Reference Databases
 
-We will need a human transcriptome reference for Kallisto pseudoalignments. The human transcriptome reference file is available here:
+We will need a human transcriptome reference for [Kallisto](https://pachterlab.github.io/kallisto/) pseudoalignments. The human transcriptome reference files are available here:
 
 [Ensembl Database](https://www.ensembl.org/info/data/ftp/index.html)
 
@@ -56,5 +56,17 @@ The Kallisto authors recommend using cDNA fasta, specifically the `*.cdna.all.fa
 Example:
 
 [http://ftp.ensembl.org/pub/release-103/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz](http://ftp.ensembl.org/pub/release-103/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz)
+
+Once downloaded, we will need to index the transcriptome FASTA using Kallisto. Be sure to use the version of Kallisto in the `twylie/bvi_rnaseq` Docker Image. See [Kallisto Manual](https://pachterlab.github.io/kallisto/manual) for details on creating Kallisto indexes.
+
+The example directory contains an example reference that has already been indexed. This example has been truncated to a single transcript (ENST00000276925.7) for testing purposes only.
+
+```plaintext
+example/transcripts.fa
+example/transcripts.fa.ndx
+```
+
+## Sample Metadata
+
 
 ------------
