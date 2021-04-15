@@ -87,7 +87,7 @@ rule link_fastq:
         os.path.join(FASTQ_OUTDIR, 'linking.log')
     run:
        cmd = ' '.join([
-           'python3 /pwd/bin/link_fastq_files.py',
+           'link_fastq_files.py',
            '--readsfofn {input.readsfofn}',
            '--samplekey {input.samplekey}',
            '--output ' + FASTQ_OUTDIR,
@@ -169,7 +169,7 @@ rule merge_kallisto_abundances:
         os.path.join(OUTDIR, 'abundances.merged.tsv')
     run:
         cmd = ' '.join([
-            'python3 /pwd/bin/merge_kallisto_abundance.py',
+            'merge_kallisto_abundance.py',
             '--kallistodir ' + KALLISTO_OUTDIR,
             '--output {output}' 
         ])
@@ -183,7 +183,7 @@ rule merge_fastqc_adapter_metrics:
         os.path.join(OUTDIR, 'adapters.merged.bin70-74.tsv')
     run:
         cmd = ' '.join([
-            'python3 /pwd/bin/merge_fastqc_adapter.py',
+            'merge_fastqc_adapter.py',
             '--fastqcdir ' + FASTQC_OUTDIR,
             '--output {output}'
         ])
@@ -197,7 +197,7 @@ rule copy_multiqc_stats:
         os.path.join(OUTDIR, 'multiqc_general_stats.merged.tsv')
     run:
         cmd = ' '.join([
-            'python3 /pwd/bin/copy_multiqc_stats.py',
+            'copy_multiqc_stats.py',
             '--multiqc ' + os.path.join(OUTDIR, 'multiqc_results'),
             '--output {output}'
         ])

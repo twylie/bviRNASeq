@@ -68,4 +68,8 @@ pip3 install --ignore-installed multiqc
 
 RUN python3.7 -m pip install snakemake==5.25.0
 
+# Custom Code #################################################################
+
+COPY bin/* /usr/bin/
+
 # __END__
