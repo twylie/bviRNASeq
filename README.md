@@ -9,7 +9,7 @@ The following prerequisite components are required for running the RNA-seq pipel
 
 1. FASTQ (paired-read files)
 2. Docker Image
-3. Reference Databases
+3. Human Transcriptome Reference
 4. Sample Metadata
 5. Configuration File
 6. Snakefile (Snakemake)
@@ -38,10 +38,23 @@ Currently, the Docker image contains:
 + FastQC
 + Kallisto
 + MultiQC
-+ Python 3.7
++ Python3
++ Pandas (Python)
++ Snakemake
++ graphviz
 
-Note: The Docker image does not contain the required ancillary databases to run the pipeline. The database files are too large to include in the Docker image and will be hosted on `storage1` volumes.
+Note: The Docker image does not contain the required ancillary reference databases to run the pipeline. The database files are too large to include in the Docker image and will be hosted on `storage1` volumes.
 
-## Databases
+## Reference Databases
+
+We will need a human transcriptome reference for Kallisto pseudoalignments. The human transcriptome reference file is available here:
+
+[Ensembl Database](https://www.ensembl.org/info/data/ftp/index.html)
+
+The Kallisto authors recommend using cDNA fasta, specifically the `*.cdna.all.fa.gz` files. Kallisto can build indices directly from the gzipped files.
+
+Example:
+
+[http://ftp.ensembl.org/pub/release-103/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz](http://ftp.ensembl.org/pub/release-103/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh38.cdna.all.fa.gz)
 
 ------------
