@@ -228,7 +228,6 @@ cd /scratch1/fs1/twylie/
 mkdir bviRNAseqProcessing
 cd bviRNAseqProcessing/
 git clone https://github.com/twylie/bviRNASeq.git
-cd bviRNASeq/
 cp bviRNASeq/bvi_rnaseq.smk .
 ```
 
@@ -259,4 +258,26 @@ The `reads.fofn` file will look something like this (truncated):
 
 NOTE: The pipeline symbolically links the FASTQ files  into the processing directory when running.
 
+## 5. Add the sample_key.tsv File
+
+Next we add the `sample_key.tsv` file. This file associates the canonical sample id with each FASTQ file in the `reads.fofn` file. There are only three fields in this file: (1) FASTQ Path (2) Canonical ID (3) Set ID. The Canonical ID is the unique name that will be used for a sample throughout the pipeline. Set ID is a batch number or label. If you only have one batch, just label this value as `1` in this file.
+
+The `sample_key.tsv` file will look something like this (truncated):
+
+```plaintext
+FASTQ Path	Canonical ID	Set ID
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-AGGCGAAG_S1_R1_001.fastq.gz	TWGQ-1276-29_c_R	1
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/CTGAAGCT-TATAGCCT_S46_R2_001.fastq.gz	TWGQ-1502-12_a_R	1
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-AGGCGAAG_S1_R2_001.fastq.gz	TWGQ-1276-29_c_R	1
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/GAATTCGT-AGGCGAAG_S47_R1_001.fastq.gz	TWGQ-2217-20_b_R	1
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-ATAGAGGC_S2_R1_001.fastq.gz	TWGQ-1504-20_b_R	1
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/GAATTCGT-AGGCGAAG_S47_R2_001.fastq.gz	TWGQ-2217-20_b_R	1
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-ATAGAGGC_S2_R2_001.fastq.gz	TWGQ-1504-20_b_R	1
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/GAATTCGT-ATAGAGGC_S48_R1_001.fastq.gz	TWGQ-1295-24_b_R	1
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-CAGGACGT_S3_R1_001.fastq.gz	TWGQ-1321-32_e_R	1
+```
+
+Make sure this file is tab-delimited and has the field labels on the first line of the file, as shown above. This file should be a superset of the FASTQ files you wish to run in the pipeline. That is, list all possible FASTQ files and associated canonical names in this file whether you run them all or not. The `reads.fofn` may include a small subset of all of the possible sample to run, but the `sample_key.tsv` file should list all of the possible samples.
+
 (To be continued...)
+
