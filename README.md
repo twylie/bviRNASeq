@@ -3,6 +3,17 @@
 
 The following instructions outline running the RNA-seq analysis pipeline for the **maternal BVI** (bacterial, virus, and immune response) project. **Instructions are intended for those involved with the project at Washington University School of Medicine.** As such, instructions will be provided with the assumption processing will take place on WashU RIS `compute1` compute server using `storage1` and `scratch1` volumes.
 
+# Author
+
+Todd N. Wylie
+Assistant Professor / Department of Pediatrics
+Washington University School of Medicine
+660 S. Euclid Avenue, Campus Box 8208
+St. Louis, MO 63110
+
+Email: twylie@wustl.edu
+Twitter: @ToddNWylie
+
 # Prerequisites
 
 The following prerequisite components are required for running the RNA-seq pipeline.
