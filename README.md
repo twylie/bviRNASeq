@@ -1,7 +1,7 @@
 
 # BVI RNA-seq Pipeline
 
-The following instructions outline running the RNA-seq analysis pipeline for the **maternal BVI** (bacterial, virus, and immune response) project. Instructions are intended for those involved with the project at Washington University School of Medicine. As such, instructions will be provided with the assumption processing will take place on WashU RIS `compute1` compute server using `storage1` and `scratch1` volumes.
+The following instructions outline running the RNA-seq analysis pipeline for the **maternal BVI** (bacterial, virus, and immune response) project. **Instructions are intended for those involved with the project at Washington University School of Medicine.** As such, instructions will be provided with the assumption processing will take place on WashU RIS `compute1` compute server using `storage1` and `scratch1` volumes.
 
 # Prerequisites
 
