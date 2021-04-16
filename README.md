@@ -282,5 +282,29 @@ Make sure this file is tab-delimited and has the field labels on the first line 
 ```zsh
 # In this case, the sample_key.tsv provided in the example/ is a viable
 # metadata file for the processing I want to accomplish.
-cp example/sample_key.tsv.
+cp bviRNASeq/example/sample_key.tsv .
 ```
+
+## 6. Setup the config.yaml File
+
+Finally, we setup the `config.yaml` file. This file directs the pipeline to all of the ancillary files required to run the pipeline. The format is simple YAML. The following fields are required:
+
++ processing directory
++ reads fofn
++ transcriptome ref
++ multiqc title
++ multiqc description
++ sample key
+
+This is what my `config.yaml` looks like:
+
+```plaintext
+processing directory: '/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults'
+reads fofn: '/scratch1/fs1/twylie/bviRNAseqProcessing/reads.fofn'
+transcriptome ref: '/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index'
+multiqc title: 'BVI RNA-seq'
+multiqc description: 'Maternal BVI RNA-seq Analysis (Batch #1-2)'
+sample key: '/scratch1/fs1/twylie/bviRNAseqProcessing/sample_key.tsv'
+```
+
+(TO BE CONTINUED...)
