@@ -181,4 +181,40 @@ The top-level report files of interest will be:
 
 # Running Real Data
 
-(Forthcoming...)
+Steps are outlined here for running real data through the pipeline. Instructions are written using WashU RIS computen services, namely `storage1`, `scratch1`, and `compute1`.
+
+## 1. Log Into Washu RIS
+
+This step requires both VPN and RIS compute accounts at Washington University.
+
+First, authenticate using your VPN client (e.g. Cisco AnyConnect Client). Once VPN is running successfully, we will secure-shell into RIS remotely.
+
+```zsh
+ssh twylie@compute1-client-1.ris.wustl.edu
+```
+
+## 2. Setup the Processing Directory
+
+Because of the cache layer on `compute1` we may experience I/O latency when reading and writng many files concurrently. Therefore, we will use the faster `scratch1` space for running and writing pipeline directive files, while writing larger output files to slower, larger `storage1` space.
+
+Setup the `storage1` processing directory first.
+
+```zsh
+cd /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/
+```
+
+This will be the directory where we will be writing our analysis output from the pipeline. This directory already includes the Kallisto indexed version of the transcriptome.
+
+```plaintext
+transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa
+transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.fai
+transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index
+```
+
+We will make a results directory in this area for running the pipeline:
+
+```zsh
+mkdir /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/
+```
+
+(To be continued...)
