@@ -183,7 +183,7 @@ The top-level report files of interest will be:
 
 Steps are outlined here for running real data through the pipeline. Instructions are written using WashU RIS computen services, namely `storage1`, `scratch1`, and `compute1`.
 
-## 1. Log Into Washu RIS
+## 1. Log Into WashU RIS
 
 This step requires both VPN and RIS compute accounts at Washington University.
 
@@ -216,5 +216,47 @@ We will make a results directory in this area for running the pipeline:
 ```zsh
 mkdir /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/
 ```
+
+This directory will be listed in the `config.yaml` file unde the `processing directory` field. Make sure there is an adequate amount of space for processing on this disk.
+
+## 3. Setup the Working Directory
+
+The working directory will be the area where we launch the pipeline and keep track of its associated runtime files. This diretory will be located on `scratch1` space will require a nominal amount of space. We setup a working directory here for processing and clone the GitHub repository and copy the Snakefile.
+
+```zsh
+cd /scratch1/fs1/twylie/
+mkdir bviRNAseqProcessing
+cd bviRNAseqProcessing/
+git clone https://github.com/twylie/bviRNASeq.git
+cd bviRNASeq/
+cp bviRNASeq/bvi_rnaseq.smk .
+```
+
+## 4. Make the reads.fofn File
+
+Next we will make the `reads.fofn` that contains a list of all of the FASTQ files we wish to analyze. This file should list the fully qualified paths to the FASTQ files. FASTQ files may be gzipped. You may make this file anyway you see fit---e.g. via text editor, command line, etc.
+
+```zsh
+ls /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/*gz > reads.fofn
+grep 'SET_2' /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/fastq.fofn >> reads.fofn
+head reads.fofn
+```
+
+The `reads.fofn` file will look something like this (truncated):
+
+```plaintext
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-AGGCGAAG_S1_R1_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-AGGCGAAG_S1_R2_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-ATAGAGGC_S2_R1_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-ATAGAGGC_S2_R2_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-CAGGACGT_S3_R1_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-CAGGACGT_S3_R2_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-CCTATCCT_S4_R1_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-CCTATCCT_S4_R2_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-GGCTCTGA_S5_R1_001.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-GGCTCTGA_S5_R2_001.fastq.gz
+```
+
+NOTE: The pipeline symbolically links the FASTQ files  into the processing directory when running.
 
 (To be continued...)
