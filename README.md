@@ -5,13 +5,13 @@ The following instructions outline running the RNA-seq analysis pipeline for the
 
 # Author
 
-Todd N. Wylie
-Assistant Professor / Department of Pediatrics
-Washington University School of Medicine
-660 S. Euclid Avenue, Campus Box 8208
-St. Louis, MO 63110
-
-Email: twylie@wustl.edu
+**Todd N. Wylie** \
+Assistant Professor / Department of Pediatrics \
+Washington University School of Medicine \
+660 S. Euclid Avenue, Campus Box 8208 \
+St. Louis, MO 63110 \
+ \
+Email: twylie@wustl.edu \
 Twitter: @ToddNWylie
 
 # Prerequisites
