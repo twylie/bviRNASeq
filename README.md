@@ -156,7 +156,7 @@ NOTE: The files listed above are simulated data and are useful only for testing 
 
 ## Test Commands
 
-```bash
+```console
 # Download the required Docker image.
 docker pull twylie/bvi_rnaseq
 
@@ -180,3 +180,10 @@ ls -ald /processing/bvi_rnaseq/*
 # /processing/bvi_rnaseq/multiqc_general_stats.merged.tsv
 # /processing/bvi_rnaseq/multiqc_results
 ```
+
+The top-level report files of interest will be:
+
++ /processing/bvi_rnaseq/BVI-RNA-seq_multiqc_report.html
++ /processing/bvi_rnaseq/abundances.merged.tsv
++ /processing/bvi_rnaseq/adapters.merged.bin70-74.tsv
++ /processing/bvi_rnaseq/multiqc_general_stats.merged.tsv
