@@ -171,14 +171,14 @@ snakemake --snakefile /pwd/bvi_rnaseq.smk --cores 1 -p
 # The output of the pipeline will be in the processing directory.
 ls -ald /processing/bvi_rnaseq/*
 
-# /processing/bvi_rnaseq/BVI-RNA-seq_multiqc_report.html
-# /processing/bvi_rnaseq/abundances.merged.tsv
-# /processing/bvi_rnaseq/adapters.merged.bin70-74.tsv
-# /processing/bvi_rnaseq/fastq
-# /processing/bvi_rnaseq/fastqc_results
-# /processing/bvi_rnaseq/kallisto_results
-# /processing/bvi_rnaseq/multiqc_general_stats.merged.tsv
-# /processing/bvi_rnaseq/multiqc_results
+/processing/bvi_rnaseq/BVI-RNA-seq_multiqc_report.html
+/processing/bvi_rnaseq/abundances.merged.tsv
+/processing/bvi_rnaseq/adapters.merged.bin70-74.tsv
+/processing/bvi_rnaseq/fastq
+/processing/bvi_rnaseq/fastqc_results
+/processing/bvi_rnaseq/kallisto_results
+/processing/bvi_rnaseq/multiqc_general_stats.merged.tsv
+/processing/bvi_rnaseq/multiqc_results
 ```
 
 The top-level report files of interest will be:
