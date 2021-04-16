@@ -2,11 +2,11 @@
 # T.N. Wylie  <twylie@wustl.edu>
 # Wed Apr 14 16:59:16 CDT 2021
 
+# Load config file from the command line:
+# snakemake --configfile <PATH>
+
 import os
 import re
-
-configfile: '/example/config.yaml'
-
 
 ###############################################################################
 #                               GLOBAL VARIABLES                              #
