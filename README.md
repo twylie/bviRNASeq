@@ -279,5 +279,8 @@ FASTQ Path	Canonical ID	Set ID
 
 Make sure this file is tab-delimited and has the field labels on the first line of the file, as shown above. This file should be a superset of the FASTQ files you wish to run in the pipeline. That is, list all possible FASTQ files and associated canonical names in this file whether you run them all or not. The `reads.fofn` may include a small subset of all of the possible sample to run, but the `sample_key.tsv` file should list all of the possible samples.
 
-(To be continued...)
-
+```zsh
+# In this case, the sample_key.tsv provided in the example/ is a viable
+# metadata file for the processing I want to accomplish.
+cp example/sample_key.tsv.
+```
