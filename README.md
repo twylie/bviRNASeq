@@ -156,7 +156,7 @@ NOTE: The files listed above are simulated data and are useful only for testing 
 
 ## Test Commands
 
-```shellscript
+```zsh
 # Download the required Docker image.
 docker pull twylie/bvi_rnaseq
 
