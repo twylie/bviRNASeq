@@ -324,4 +324,43 @@ There are two modes for running the pipeline: 1) single processing; 2) parallel 
 
 The approach for single processing is fairly straight forward. Just run Snakemake as follows making sure to explicitly point to your `config.yaml` file and the main `bvi_rnaseq.smk` Snakefile.
 
+Before submitting the job to LSF, it's easiest to place the Snakemake command statement in its own shell script, here called `cmd.sh`. The following command is placed in the shell script.
+
+```zsh
+snakemake --snakefile /scratch1/fs1/twylie/bviRNAseqProcessing/bvi_rnaseq.smk --configfile /scratch1/fs1/twylie/bviRNAseqProcessing/config.yaml --cores 1 -p
+```
+
+Once the `cmd.sh` is setup, you may launch the LSF job. Make sure you are in the working directory on `scratch1` when launching the job, in this case:
+
+```zsh
+/scratch1/fs1/twylie/bviRNAseqProcessing/
+```
+
+This is where Snakemake will write the `.snakemake/` directory for keeping track of Snakemake jobs.
+
+The most verbose part of the LSF submission is making sure that Docker will see **all** of the disks that are used in the pipeline. Make sure that all of the volumes are mapped correctly in the `bsub` command. In my case, I only need two volume mappings to access all of the data I need to run the pipeline.
+
++ /scratch1/fs1/twylie/bviRNAseqProcessing
++ /storage1/fs1/PTB/Active
+
+Launch the LSF job.
+
+```zsh
+LSF_DOCKER_VOLUMES='/scratch1/fs1/twylie/bviRNAseqProcessing:/scratch1/fs1/twylie/bviRNAseqProcessing /storage1/fs1/PTB/Active:/storage1/fs1/PTB/Active' \\
+bsub -M 16G \\
+-R "select[mem>16G] rusage[mem=16G]" \\
+-G compute-kwylie \\
+-q general \\
+-e $PWD/bvi.LSF.err \\
+-o $PWD/bvi.LSF.out \\
+-a 'docker(twylie/bvi_rnaseq)' \\
+sh $PWD/cmd.sh
+```
+
+The pipeline should run under LSF given the above command. To check progress:
+
+```zsh
+bjobs
+```
+
 (TO BE CONTINUED...)
