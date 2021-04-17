@@ -333,7 +333,7 @@ snakemake --snakefile /scratch1/fs1/twylie/bviRNAseqProcessing/bvi_rnaseq.smk --
 Once the `cmd.sh` is setup, you may launch the LSF job. Make sure you are in the working directory on `scratch1` when launching the job, in this case:
 
 ```zsh
-/scratch1/fs1/twylie/bviRNAseqProcessing/
+cd /scratch1/fs1/twylie/bviRNAseqProcessing/
 ```
 
 This is where Snakemake will write the `.snakemake/` directory for keeping track of Snakemake jobs.
@@ -346,14 +346,14 @@ The most verbose part of the LSF submission is making sure that Docker will see 
 Launch the LSF job.
 
 ```zsh
-LSF_DOCKER_VOLUMES='/scratch1/fs1/twylie/bviRNAseqProcessing:/scratch1/fs1/twylie/bviRNAseqProcessing /storage1/fs1/PTB/Active:/storage1/fs1/PTB/Active' \\
-bsub -M 16G \\
--R "select[mem>16G] rusage[mem=16G]" \\
--G compute-kwylie \\
--q general \\
--e $PWD/bvi.LSF.err \\
--o $PWD/bvi.LSF.out \\
--a 'docker(twylie/bvi_rnaseq)' \\
+LSF_DOCKER_VOLUMES='/scratch1/fs1/twylie/bviRNAseqProcessing:/scratch1/fs1/twylie/bviRNAseqProcessing /storage1/fs1/PTB/Active:/storage1/fs1/PTB/Active' \
+bsub -M 16G \
+-R "select[mem>16G] rusage[mem=16G]" \
+-G compute-kwylie \
+-q general \
+-e $PWD/bvi.LSF.err \
+-o $PWD/bvi.LSF.out \
+-a 'docker(twylie/bvi_rnaseq)' \
 sh $PWD/cmd.sh
 ```
 
