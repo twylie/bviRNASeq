@@ -384,6 +384,7 @@ lsf:
   queue: 'general'
   latency wait: '20'
   restart times: '3'
+  lsf log dir: '/scratch1/fs1/twylie/bviRNAseqProcessing/lsf_logs'
 ```
 
 This information is used for each jobscript submmited to LSF.
