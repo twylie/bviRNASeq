@@ -85,7 +85,7 @@ We will be providing a sample key to the pipeline that associates FASTQ file pat
 
 The `example/sample_key.tsv` file provides an example sample key for reference.
 
-```plaintext
+```yaml
 FASTQ Path	Canonical ID	Set ID
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/AGCGATAG-AGGCGAAG_S1_R1_001.fastq.gz	TWGQ-1276-29_c_R	1
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/seq/set1/CTGAAGCT-TATAGCCT_S46_R2_001.fastq.gz	TWGQ-1502-12_a_R	1
