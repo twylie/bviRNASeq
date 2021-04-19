@@ -25,7 +25,7 @@ The following prerequisite components are required for running the RNA-seq pipel
 
 ## 1. FASTQ (paired-read files)
 
-The pipeline requires paired-end FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed. List all of the samples you wish to analyze in a `reads.fofn` file, the minimum being one FASTQ file. The path to the `reads.fofn` will be included in the pipeline `config.yaml` configuration file in the `reads fofn` field.
+The pipeline requires paired-end FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed. List all of the samples you wish to analyze in a `reads.fofn` file, the minimum being one sample; however, you must provide both read-pairs per sample. The path to the `reads.fofn` will be included in the pipeline `config.yaml` configuration file in the `reads fofn` field.
 
 Example file in `example/reads.fofn` directory:
 
@@ -363,4 +363,34 @@ The pipeline should run under LSF given the above command. To check progress:
 bjobs
 ```
 
-(TO BE CONTINUED...)
+### Parallel Processing
+
+Running the pipeline in parallel processing mode requires a litte more setup. We will be adding another configuration YAML file specfic for parallel processing. We will also be adding a small _submitter_ script that helps submit individual jobs on the LSF server.
+
+The LSF submission configuration YAML file looks like this:
+
+```YAML
+docker:
+  image: 'twylie/viromatch:latest'
+  volumes:
+    - '/storage1/fs1/tnwylie_lab/Active/viroMatchDatabases:/storage1/fs1/tnwylie_lab/Active/viroMatchDatabases'
+    - '/storage1/fs1/twylie/Active/redoPP:/storage1/fs1/twylie/Active/redoPP'
+    - '/storage1/fs1/twylie/RAW_DATA:/storage1/fs1/twylie/RAW_DATA'
+lsf:
+  memory: '16G'
+  results dir: '/storage1/fs1/twylie/Active/redoPP/results'
+  cores: '150'
+  local cores: '1'
+  compute group: 'compute-kwylie'
+  queue: 'general'
+  latency wait: '100'
+  restart times: '3'
+  ignore hosts:
+    - 'compute1-exec-67.ris.wustl.edu'
+    - 'compute1-exec-117.ris.wustl.edu'
+    - 'compute1-exec-102.ris.wustl.edu'
+```
+
+This information is used for each jobscript submmited to LSF.
+
+(TO BE CONTIUNUED...)
