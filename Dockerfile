@@ -51,7 +51,7 @@ cp kallisto /usr/bin/
 
 # FASTQC ######################################################################
 
-RUN mkdir /usr/local/bin/installFASTQC && \\
+RUN mkdir /usr/local/bin/installFASTQC && \
 cd /usr/local/bin/installFASTQC && \
 wget https://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.9.zip && \
 unzip fastqc_v0.11.9.zip && \
@@ -61,12 +61,16 @@ ln -s /usr/local/bin/installFASTQC/FastQC/fastqc /usr/bin/fastqc
 
 # MultiQC #####################################################################
 
-RUN python3.7 -m pip install --upgrade pip && \\
+RUN python3.7 -m pip install --upgrade pip && \
 pip3 install --ignore-installed multiqc
 
 # Snakemake ###################################################################
 
 RUN python3.7 -m pip install snakemake==5.25.0
+
+# YAML #### ###################################################################
+
+RUN python3.7 -m pip install pyyaml
 
 # Custom Code #################################################################
 
