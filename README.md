@@ -371,24 +371,19 @@ The LSF submission configuration YAML file looks like this:
 
 ```YAML
 docker:
-  image: 'twylie/viromatch:latest'
+  image: 'twylie/bvi_rnaseq'
   volumes:
-    - '/storage1/fs1/tnwylie_lab/Active/viroMatchDatabases:/storage1/fs1/tnwylie_lab/Active/viroMatchDatabases'
-    - '/storage1/fs1/twylie/Active/redoPP:/storage1/fs1/twylie/Active/redoPP'
-    - '/storage1/fs1/twylie/RAW_DATA:/storage1/fs1/twylie/RAW_DATA'
+    - '/scratch1/fs1/twylie/bviRNAseqProcessing'
+    - '/storage1/fs1/PTB/Active'
 lsf:
   memory: '16G'
-  results dir: '/storage1/fs1/twylie/Active/redoPP/results'
-  cores: '150'
+  results dir: '/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults'
+  cores: '100'
   local cores: '1'
   compute group: 'compute-kwylie'
   queue: 'general'
-  latency wait: '100'
+  latency wait: '20'
   restart times: '3'
-  ignore hosts:
-    - 'compute1-exec-67.ris.wustl.edu'
-    - 'compute1-exec-117.ris.wustl.edu'
-    - 'compute1-exec-102.ris.wustl.edu'
 ```
 
 This information is used for each jobscript submmited to LSF.
