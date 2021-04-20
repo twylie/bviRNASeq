@@ -156,6 +156,7 @@ example
 ├── HWFCGDSXX_GAATTCGT-GGCTCTGA_S25_L001_R1_001.fastq.gz
 ├── HWFCGDSXX_GAATTCGT-GGCTCTGA_S25_L001_R2_001.fastq.gz
 ├── config.yaml
+├── pp.yaml
 ├── reads.fofn
 ├── sample_key.tsv
 └── transcripts.fa.ndx
@@ -365,7 +366,7 @@ bjobs
 
 ### Parallel Processing
 
-Running the pipeline in parallel processing mode requires a litte more setup. We will be adding another configuration YAML file specfic for parallel processing. We will also be adding a small _submitter_ script that helps submit individual jobs on the LSF server.
+Running the pipeline in parallel processing mode requires a litte more setup. We will be adding another configuration YAML file specfic for parallel processing. We will also be adding a small _submitter_ script that helps submit individual jobs on the LSF server, via Snakemake.
 
 The LSF submission configuration YAML file looks like this:
 
@@ -383,10 +384,68 @@ lsf:
   compute group: 'compute-kwylie'
   queue: 'general'
   latency wait: '20'
-  restart times: '3'
+  restart times: '5'
   lsf log dir: '/scratch1/fs1/twylie/bviRNAseqProcessing/lsf_logs'
 ```
 
-This information is used for each jobscript submmited to LSF.
+This information is used for each jobscript submmited to LSF. The included example configuration file is actually useful for my samples, so I will copy it into my working directory (`/scratch1/fs1/twylie/bviRNAseqProcessing/`).
 
-(TO BE CONTIUNUED...)
+The `pp.yaml` configuration file is read by a LSF _submitter_ script called `submit_lsf.py`. You will also need to copy this file from the cloned GitHub repository.
+
+```zsh
+# From the cloned GitHub repository...
+cp bviRNASeq/example/pp.yaml .
+
+# ...also copy the submitter script.
+cp bviRNASeq/submit_lsf.py .
+
+```
+
+You may use the `pp.yaml` file as a template and edit it for your processing.
+
+It is very important to have both the `pp.yaml` and `submit_lsf.py` script in the same directory when processing; the submitter script looks for the configuration file in its own directory.
+
+Finally, the Snakemake command to launch the pipeline looks a little different than the sing processing approach. Namely, we will point to the submitter script and add a few cluster-specific paramters.
+
+```zsh
+snakemake \
+--snakefile /scratch1/fs1/twylie/bviRNAseqProcessing/bvi_rnaseq.smk \
+--cluster /scratch1/fs1/twylie/bviRNAseqProcessing/submit_lsf.py \
+--configfile /scratch1/fs1/twylie/bviRNAseqProcessing/config.yaml \
+--cores 100 \
+--local-cores 1 \
+--restart-times 5 \
+--latency-wait 20 \
+-p \
+--rerun-incomplete
+```
+
+Or as a LSF/Docker command, where the above Snakemake command is placed in a file called `cmd.pp.sh`.
+
+```zsh
+LSF_DOCKER_VOLUMES='/scratch1/fs1/twylie/bviRNAseqProcessing:/scratch1/fs1/twylie/bviRNAseqProcessing /storage1/fs1/PTB/Active:/storage1/fs1/PTB/Active' bsub -M 16G -R "select[mem>16G] rusage[mem=16G]" -G compute-kwylie -q general -e $PWD/bvi.LSF.err -o $PWD/bvi.LSF.out -a 'docker(twylie/bvi_rnaseq)' sh $PWD/cmd.pp.sh
+```
+
+### Results
+
+The results from running the pipeline are the same regardless of single or parallel processing. The processing directory will look like this after all processing is complete:
+
+```plaitext
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/abundances.merged.tsv
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/adapters.merged.bin70-74.tsv
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/BVI-RNA-seq_multiqc_report.html
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/fastqc_results
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/kallisto_results
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/multiqc_general_stats.merged.tsv
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/multiqc_results
+```
+
+The main files of interest:
+
++ /processing/bvi_rnaseq/BVI-RNA-seq_multiqc_report.html
++ /processing/bvi_rnaseq/abundances.merged.tsv
++ /processing/bvi_rnaseq/adapters.merged.bin70-74.tsv
++ /processing/bvi_rnaseq/multiqc_general_stats.merged.tsv
+
+`BVI-RNA-seq_multiqc_report.html` is the main report file from running MultiQC, which consolidates FastQC and Kallisto metrics. The `abundances.merged.tsv` merges all of the Kallisto expression results from all of the samples processed. The `adapters.merged.bin70-74.tsv` file is a snapshot of adapter retention for all samples taken at the 70-74 bp position(s) of reads. The `multiqc_general_stats.merged.tsv` is a summary of general metrics compiled by MultiQ. The parent `kallisto_results/` and `fastqc_results/` directories contain all of the per-sample analysis files. The `fastq/linking.log` describes how FASTQ files were linked-in for processing and associates the FASTQ file name with a canonical sample id.
