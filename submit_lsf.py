@@ -30,8 +30,8 @@ for volume in config['docker']['volumes']:
     volumes.append(volume)
 volumes = str(' '.join(volumes))
 
-lsf_error = os.path.join(config['lsf']['lsf log dir'], 'LSF.err.' + job_id)
-lsf_out = os.path.join(config['lsf']['lsf log dir'], 'LSF.out.' + job_id)
+lsf_error = os.path.join(config['lsf']['lsf log dir'], 'LSF.err.' + str(job_id))
+lsf_out = os.path.join(config['lsf']['lsf log dir'], 'LSF.out.' + str(job_id))
 
 cmd = ' '.join([
     'LSF_DOCKER_VOLUMES="{}"'.format(volumes),
