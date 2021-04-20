@@ -448,4 +448,8 @@ The main files of interest:
 + /processing/bvi_rnaseq/adapters.merged.bin70-74.tsv
 + /processing/bvi_rnaseq/multiqc_general_stats.merged.tsv
 
-`BVI-RNA-seq_multiqc_report.html` is the main report file from running MultiQC, which consolidates FastQC and Kallisto metrics. The `abundances.merged.tsv` merges all of the Kallisto expression results from all of the samples processed. The `adapters.merged.bin70-74.tsv` file is a snapshot of adapter retention for all samples taken at the 70-74 bp position(s) of reads. The `multiqc_general_stats.merged.tsv` is a summary of general metrics compiled by MultiQ. The parent `kallisto_results/` and `fastqc_results/` directories contain all of the per-sample analysis files. The `fastq/linking.log` describes how FASTQ files were linked-in for processing and associates the FASTQ file name with a canonical sample id.
+`BVI-RNA-seq_multiqc_report.html` is the main report file from running MultiQC, which consolidates FastQC and Kallisto metrics. 
+
+<img src="images/multiqc.png" width="100%" height="100%" border=0 style="border:0; text-decoration:none; outline:none">
+
+The `abundances.merged.tsv` merges all of the Kallisto expression results from all of the samples processed. The `adapters.merged.bin70-74.tsv` file is a snapshot of adapter retention for all samples taken at the 70-74 bp position(s) of reads. The `multiqc_general_stats.merged.tsv` is a summary of general metrics compiled by MultiQ. The parent `kallisto_results/` and `fastqc_results/` directories contain all of the per-sample analysis files. The `fastq/linking.log` describes how FASTQ files were linked-in for processing and associates the FASTQ file name with a canonical sample id.
