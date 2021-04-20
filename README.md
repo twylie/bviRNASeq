@@ -139,7 +139,7 @@ We are using Snakemake to run our pipeline steps. A Snakefile (`bvi_rnaseq.smk`)
 
 <img src="images/dag.png" width="75%" height="75%" border=0 style="border:0; text-decoration:none; outline:none">
 
-The following example rulegraph shows the workflow for two samples. Note that FastQC works on FASTQ reads pairs separately while Kallisto maps using read-pair informtion per sample.
+The following example rulegraph shows the workflow for two samples. Note that FastQC works on FASTQ reads pairs separately while Kallisto maps using read-pair information per sample.
 
 <img src="images/rulegraph.png" width="100%" height="100%" border=0 style="border:0; text-decoration:none; outline:none">
 
@@ -191,7 +191,7 @@ The top-level report files of interest will be:
 
 # Running Real Data
 
-Steps are outlined here for running real data through the pipeline. Instructions are written using WashU RIS computen services, namely `storage1`, `scratch1`, and `compute1`.
+Steps are outlined here for running real data through the pipeline. Instructions are written using WashU RIS compute services, namely `storage1`, `scratch1`, and `compute1`.
 
 ## 1. Log Into WashU RIS
 
@@ -205,7 +205,7 @@ ssh twylie@compute1-client-1.ris.wustl.edu
 
 ## 2. Setup the Processing Directory
 
-Because of the cache layer on `compute1` we may experience I/O latency when reading and writng many files concurrently. Therefore, we will use the faster `scratch1` space for running and writing pipeline directive files, while writing larger output files to slower, larger `storage1` space.
+Because of the cache layer on `compute1` we may experience I/O latency when reading and writing many files concurrently. Therefore, we will use the faster `scratch1` space for running and writing pipeline directive files, while writing larger output files to slower, larger `storage1` space.
 
 Setup the `storage1` processing directory first.
 
@@ -227,11 +227,11 @@ We will make a results directory in this area for running the pipeline:
 mkdir /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/
 ```
 
-This directory will be listed in the `config.yaml` file unde the `processing directory` field. Make sure there is an adequate amount of space for processing on this disk.
+This directory will be listed in the `config.yaml` file under the `processing directory` field. Make sure there is an adequate amount of space for processing on this disk.
 
 ## 3. Setup the Working Directory
 
-The working directory will be the area where we launch the pipeline and keep track of its associated runtime files. This diretory will be located on `scratch1` space will require a nominal amount of space. We setup a working directory here for processing and clone the GitHub repository and copy the Snakefile.
+The working directory will be the area where we launch the pipeline and keep track of its associated runtime files. This directory will be located on `scratch1` space will require a nominal amount of space. We setup a working directory here for processing and clone the GitHub repository and copy the Snakefile.
 
 ```zsh
 cd /scratch1/fs1/twylie/
@@ -366,7 +366,7 @@ bjobs
 
 ### Parallel Processing
 
-Running the pipeline in parallel processing mode requires a litte more setup. We will be adding another configuration YAML file specfic for parallel processing. We will also be adding a small _submitter_ script that helps submit individual jobs on the LSF server, via Snakemake.
+Running the pipeline in parallel processing mode requires a little more setup. We will be adding another configuration YAML file specific for parallel processing. We will also be adding a small _submitter_ script that helps submit individual jobs on the LSF server, via Snakemake.
 
 The LSF submission configuration YAML file looks like this:
 
@@ -388,7 +388,7 @@ lsf:
   lsf log dir: '/scratch1/fs1/twylie/bviRNAseqProcessing/lsf_logs'
 ```
 
-This information is used for each jobscript submmited to LSF. The included example configuration file is actually useful for my samples, so I will copy it into my working directory (`/scratch1/fs1/twylie/bviRNAseqProcessing/`).
+This information is used for each jobscript submitted to LSF. The included example configuration file is actually useful for my samples, so I will copy it into my working directory (`/scratch1/fs1/twylie/bviRNAseqProcessing/`).
 
 The `pp.yaml` configuration file is read by a LSF _submitter_ script called `submit_lsf.py`. You will also need to copy this file from the cloned GitHub repository.
 
@@ -405,7 +405,7 @@ You may use the `pp.yaml` file as a template and edit it for your processing.
 
 It is very important to have both the `pp.yaml` and `submit_lsf.py` script in the same directory when processing; the submitter script looks for the configuration file in its own directory.
 
-Finally, the Snakemake command to launch the pipeline looks a little different than the sing processing approach. Namely, we will point to the submitter script and add a few cluster-specific paramters.
+Finally, the Snakemake command to launch the pipeline looks a little different than the sing processing approach. Namely, we will point to the submitter script and add a few cluster-specific parameters.
 
 ```zsh
 snakemake \
