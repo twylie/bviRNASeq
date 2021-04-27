@@ -83,9 +83,12 @@ def parse_general_stats(arguments):
     for i in df.index:
         id_ = df.loc[i]['Sample']
         pairs = re.search('_R[12]', id_)
-        pos = pairs.start()
-        pair_id = pairs.group()[1:]
-        id_ = id_[0:pos]
+        if pairs:
+            pos = pairs.start()
+            pair_id = pairs.group()[1:]
+            id_ = id_[0:pos]
+        else:
+            pair_id = 'R1/R2'
         sample_ids.append(id_)
         pair_ids.append(pair_id)
 

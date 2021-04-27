@@ -53,6 +53,7 @@ for id_ in CANONICAL_IDS:
 FASTQ_OUTDIR = os.path.join(OUTDIR, 'fastq')
 FASTQC_OUTDIR = os.path.join(OUTDIR, 'fastqc_results')
 KALLISTO_OUTDIR = os.path.join(OUTDIR, 'kallisto_results')
+KRAKEN_OUTDIR = os.path.join(OUTDIR, 'kraken_results')
 MULTIQC_OUTDIR = os.path.join(OUTDIR, 'multiqc_results')
 
 
@@ -70,6 +71,10 @@ rule all:
         expand(os.path.join(KALLISTO_OUTDIR, '{ids}/abundance.tsv'), ids = CANONICAL_IDS),
         expand(os.path.join(KALLISTO_OUTDIR, '{ids}/abundance.tsv'), ids = CANONICAL_IDS),
         expand(os.path.join(KALLISTO_OUTDIR, '{ids}/{ids}.done'), ids = CANONICAL_IDS),
+        expand(os.path.join(KRAKEN_OUTDIR, '{ids}'), ids = CANONICAL_IDS),
+        expand(os.path.join(KRAKEN_OUTDIR, '{ids}/{ids}.out'), ids = CANONICAL_IDS),
+        expand(os.path.join(KRAKEN_OUTDIR, '{ids}/{ids}.report'), ids = CANONICAL_IDS),
+        expand(os.path.join(KRAKEN_OUTDIR, '{ids}/{ids}.done'), ids = CANONICAL_IDS),
         os.path.join(MULTIQC_OUTDIR, 'multiqc.done'),
         os.path.join(MULTIQC_OUTDIR, 'multiqc.log'),
         os.path.join(OUTDIR, 'abundances.merged.tsv'),
@@ -138,10 +143,36 @@ rule run_kallisto:
         shell(cmd)
 
 
+rule run_kraken:
+    input:
+        r1 = os.path.join(FASTQ_OUTDIR, '{sample}_R1.fastq.gz'),
+        r2 = os.path.join(FASTQ_OUTDIR, '{sample}_R2.fastq.gz')
+    output:
+        dir = directory(os.path.join(KRAKEN_OUTDIR, '{sample}')),
+        out = os.path.join(KRAKEN_OUTDIR, '{sample}/{sample}.out'),
+        report_ = os.path.join(KRAKEN_OUTDIR, '{sample}/{sample}.report'),
+        done = touch(os.path.join(KRAKEN_OUTDIR, '{sample}/{sample}.done'))
+    log:
+        os.path.join(KRAKEN_OUTDIR, '{sample}/{sample}.log')
+    run:
+        cmd = ' '.join([
+            'kraken2',
+            '--use-names',
+            '--paired',
+            '--db ' + config['kraken db'],
+            '{input.r1} {input.r2}',
+            '--output {output.out}',
+            '--report {output.report_}',
+            '2> {log}'
+        ])
+        shell(cmd)        
+
+
 rule run_multiqc:
     input:
         expand(os.path.join(FASTQC_OUTDIR, '{ids}.done'), ids = FASTQ_LINK_IDS),
-        expand(os.path.join(KALLISTO_OUTDIR, '{ids}/{ids}.done'), ids = CANONICAL_IDS)
+        expand(os.path.join(KALLISTO_OUTDIR, '{ids}/{ids}.done'), ids = CANONICAL_IDS),
+        expand(os.path.join(KRAKEN_OUTDIR, '{ids}/{ids}.done'), ids = CANONICAL_IDS)
     output:
         touch(os.path.join(MULTIQC_OUTDIR, 'multiqc.done'))
     log:
@@ -155,7 +186,8 @@ rule run_multiqc:
             '-ip',
             '-v ' + ' '.join([
                 KALLISTO_OUTDIR,
-                FASTQC_OUTDIR
+                FASTQC_OUTDIR,
+                KRAKEN_OUTDIR
             ]),
             '2> {log}'
         ])

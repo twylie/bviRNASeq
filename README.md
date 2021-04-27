@@ -46,6 +46,7 @@ Currently, the Docker image contains:
 
 + FastQC
 + Kallisto
++ Kraken2
 + MultiQC
 + Python3
 + Pandas (Python)

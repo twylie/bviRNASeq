@@ -36,9 +36,12 @@ wget \
 zsh \
 python3.7-dev \
 python3-pip \
-python3-pandas \
 graphviz \
 zile
+
+# Pandas ######################################################################
+
+RUN python3.7 -m pip install pandas
 
 # Kallisto ####################################################################
 
@@ -63,6 +66,15 @@ ln -s /usr/local/bin/installFASTQC/FastQC/fastqc /usr/bin/fastqc
 
 RUN python3.7 -m pip install --upgrade pip && \
 pip3 install --ignore-installed multiqc
+
+# Kraken2 #####################################################################
+
+RUN mkdir /root/installKraken2  && \
+cd /root/installKraken2 && \
+git clone https://github.com/DerrickWood/kraken2.git && \
+cd kraken2 && \
+sh install_kraken2.sh INSTALL && \
+cp INSTALL/* /usr/bin/
 
 # Snakemake ###################################################################
 
