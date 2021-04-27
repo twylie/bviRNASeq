@@ -392,6 +392,7 @@ docker:
   volumes:
     - '/scratch1/fs1/twylie/bviRNAseqProcessing'
     - '/storage1/fs1/PTB/Active'
+    - '/storage1/fs1/kwylie/Active'
 lsf:
   memory: '16G'
   results dir: '/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults'
