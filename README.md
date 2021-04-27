@@ -138,7 +138,7 @@ We are using Snakemake to run our pipeline steps. A Snakefile (`bvi_rnaseq.smk`)
 + merge_fastqc_adapter_metrics
 + copy_multiqc_stats
 
-<img src="images/dag.png" width="75%" height="75%" border=0 style="border:0; text-decoration:none; outline:none">
+<img src="images/dag.png" width="100%" height="75%" border=0 style="border:0; text-decoration:none; outline:none">
 
 The following example rulegraph shows the workflow for two samples. Note that FastQC works on FASTQ reads pairs separately while Kallisto maps using read-pair information per sample.
 
