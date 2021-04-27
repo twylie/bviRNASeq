@@ -124,6 +124,7 @@ transcriptome ref: '/example/transcripts.fa.ndx'
 multiqc title: 'BVI RNA-seq'
 multiqc description: 'Initial metric review of sets #1 and #2.'
 sample key: '/example/sample_key.tsv'
+kraken db: '/example/krakenDB/16S_Greengenes_k2db'
 ```
 
 ## 6. Snakefile (Snakemake)
@@ -357,13 +358,14 @@ This is where Snakemake will write the `.snakemake/` directory for keeping track
 
 The most verbose part of the LSF submission is making sure that Docker will see **all** of the disks that are used in the pipeline. Make sure that all of the volumes are mapped correctly in the `bsub` command. In my case, I only need two volume mappings to access all of the data I need to run the pipeline.
 
-+ /scratch1/fs1/twylie/bviRNAseqProcessing
-+ /storage1/fs1/PTB/Active
++ /scratch1/fs1/twylie/bviRNAseqProcessing/
++ /storage1/fs1/PTB/Active/
++ /storage1/fs1/kwylie/Active/
 
 Launch the LSF job.
 
 ```zsh
-LSF_DOCKER_VOLUMES='/scratch1/fs1/twylie/bviRNAseqProcessing:/scratch1/fs1/twylie/bviRNAseqProcessing /storage1/fs1/PTB/Active:/storage1/fs1/PTB/Active' \
+LSF_DOCKER_VOLUMES='/storage1/fs1/kwylie/Active:/storage1/fs1/kwylie/Active /scratch1/fs1/twylie/bviRNAseqProcessing:/scratch1/fs1/twylie/bviRNAseqProcessing /storage1/fs1/PTB/Active:/storage1/fs1/PTB/Active' \
 bsub -M 16G \
 -R "select[mem>16G] rusage[mem=16G]" \
 -G compute-kwylie \
@@ -439,7 +441,7 @@ snakemake \
 Or as a LSF/Docker command, where the above Snakemake command is placed in a file called `cmd.pp.sh`.
 
 ```zsh
-LSF_DOCKER_VOLUMES='/scratch1/fs1/twylie/bviRNAseqProcessing:/scratch1/fs1/twylie/bviRNAseqProcessing /storage1/fs1/PTB/Active:/storage1/fs1/PTB/Active' bsub -M 16G -R "select[mem>16G] rusage[mem=16G]" -G compute-kwylie -q general -e $PWD/bvi.LSF.err -o $PWD/bvi.LSF.out -a 'docker(twylie/bvi_rnaseq)' sh $PWD/cmd.pp.sh
+LSF_DOCKER_VOLUMES='/storage1/fs1/kwylie/Active:/storage1/fs1/kwylie/Active /scratch1/fs1/twylie/bviRNAseqProcessing:/scratch1/fs1/twylie/bviRNAseqProcessing /storage1/fs1/PTB/Active:/storage1/fs1/PTB/Active' bsub -M 16G -R "select[mem>16G] rusage[mem=16G]" -G compute-kwylie -q general -e $PWD/bvi.LSF.err -o $PWD/bvi.LSF.out -a 'docker(twylie/bvi_rnaseq)' sh $PWD/cmd.pp.sh
 ```
 
 ### Results
