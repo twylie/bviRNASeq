@@ -22,6 +22,7 @@ The following prerequisite components are required for running the RNA-seq pipel
 4. Sample Key
 5. Configuration File
 6. Snakefile (Snakemake)
+7. Kraken2 Database
 
 ## 1. FASTQ (paired-read files)
 
@@ -144,6 +145,16 @@ The following example rulegraph shows the workflow for two samples. Note that Fa
 
 <img src="images/rulegraph.png" width="100%" height="100%" border=0 style="border:0; text-decoration:none; outline:none">
 
+## 7. Kraken2 Database
+
+We will need a formatted taxonomy database for the Kraken2 portion of the pipeline. A small version is included in the `example/krakenDB/` directory for testing purposes; however, you will need to choose an appropriate database (e.g. Standard db) for your processing needs. Please see:
+
+[Kraken2 Wiki](https://github.com/DerrickWood/kraken2/wiki/Manual)
+
+for details on setting up the Kraken2 database.
+
+Note: We will need to point to the Kraken2 database file in the `config.yaml` file, in the `kraken db` field.
+
 # Test Example
 
 ## Test Data
@@ -157,6 +168,7 @@ example
 ├── HWFCGDSXX_GAATTCGT-GGCTCTGA_S25_L001_R1_001.fastq.gz
 ├── HWFCGDSXX_GAATTCGT-GGCTCTGA_S25_L001_R2_001.fastq.gz
 ├── config.yaml
+├── krakenDB/
 ├── pp.yaml
 ├── reads.fofn
 ├── sample_key.tsv
@@ -306,6 +318,7 @@ Finally, we setup the `config.yaml` file. This file directs the pipeline to all 
 + multiqc title
 + multiqc description
 + sample key
++ kraken db
 
 This is what my `config.yaml` looks like:
 
@@ -316,6 +329,7 @@ transcriptome ref: '/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisRe
 multiqc title: 'BVI RNA-seq'
 multiqc description: 'Maternal BVI RNA-seq Analysis (Batch #1-2)'
 sample key: '/scratch1/fs1/twylie/bviRNAseqProcessing/sample_key.tsv'
+kraken db: '/storage1/fs1/kwylie/Active/KRAKEN/STANDARD'
 ```
 
 ## 7. Launch the Pipeline
@@ -399,7 +413,6 @@ cp bviRNASeq/example/pp.yaml .
 
 # ...also copy the submitter script.
 cp bviRNASeq/submit_lsf.py .
-
 ```
 
 You may use the `pp.yaml` file as a template and edit it for your processing.
