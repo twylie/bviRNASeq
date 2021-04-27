@@ -134,6 +134,7 @@ We are using Snakemake to run our pipeline steps. A Snakefile (`bvi_rnaseq.smk`)
 + link_fastq
 + fastqc_eval
 + run_kallisto
++ run_kraken
 + run_multiqc
 + merge_kallisto_abundances
 + merge_fastqc_adapter_metrics
@@ -451,6 +452,7 @@ The results from running the pipeline are the same regardless of single or paral
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/fastq
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/fastqc_results
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/kallisto_results
+/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/kraken_results
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/multiqc_general_stats.merged.tsv
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/pipelineResults/multiqc_results
 ```
@@ -466,4 +468,4 @@ The main files of interest:
 
 <img src="images/multiqc.png" width="100%" height="100%" border=0 style="border:0; text-decoration:none; outline:none">
 
-The `abundances.merged.tsv` merges all of the Kallisto expression results from all of the samples processed. The `adapters.merged.bin70-74.tsv` file is a snapshot of adapter retention for all samples taken at the 70-74 bp position(s) of reads. The `multiqc_general_stats.merged.tsv` is a summary of general metrics compiled by MultiQ. The parent `kallisto_results/` and `fastqc_results/` directories contain all of the per-sample analysis files. The `fastq/linking.log` describes how FASTQ files were linked-in for processing and associates the FASTQ file name with a canonical sample id.
+The `abundances.merged.tsv` merges all of the Kallisto expression results from all of the samples processed. The `adapters.merged.bin70-74.tsv` file is a snapshot of adapter retention for all samples taken at the 70-74 bp position(s) of reads. The `multiqc_general_stats.merged.tsv` is a summary of general metrics compiled by MultiQ. The parent `kallisto_results/`, `fastqc_results/`, and `kraken_resaults/` directories contain all of the per-sample analysis files. The `fastq/linking.log` describes how FASTQ files were linked-in for processing and associates the FASTQ file name with a canonical sample id.
