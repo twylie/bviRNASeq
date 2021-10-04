@@ -76,7 +76,7 @@ def link_fastq_files(arguments, reads, df_sample_key):
                 pair_id = re.sub('_', '', pair_id)
                 dest_path = os.path.join(
                     arguments.output,
-                    df_sample_key.loc[i]['Canonical ID'] + '_' + pair_id + '.fastq.gz'
+                    str(df_sample_key.loc[i]['Canonical ID']) + '_' + pair_id + '.fastq.gz'
                 )
                 sys.stderr.write('[symlink] ' + source_path + ' --> ' + dest_path + '\n')
                 os.symlink(source_path, dest_path)
