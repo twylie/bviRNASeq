@@ -338,6 +338,8 @@ kraken db: '/storage1/fs1/kwylie/Active/KRAKEN/STANDARD'
 
 There are two modes for running the pipeline: 1) single processing; 2) parallel processing. The single processing approach will run each step of the pipeline as a single event in sequential order one at a time. Parallel processing will split steps up into individual jobs and run them in parallel across the `compute1` LSF server. Final output is the same for both approaches; however, parallel processing should be faster dependent upon how many jobs were chosen for pipeline execution.
 
+**NOTE:** Kraken2 is a memory hog. I had to use 64 GB of RAM to get it to porcess on our test RNA-seq samples.
+
 ### Single Processing
 
 The approach for single processing is fairly straight forward. Just run Snakemake as follows making sure to explicitly point to your `config.yaml` file and the main `bvi_rnaseq.smk` Snakefile.
