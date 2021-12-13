@@ -233,7 +233,7 @@ We will be providing a sample key called `sample_key.tsv` to the pipeline that a
 2. Canonical ID: The canonical sample ids associated with the FASTQ files. The canonical ids will be used throughout the pipeline to identify the samples.
 3.  Set ID: The associated set or batch ids for the samples.
 
-**WARNING!!!** Both reads.fofn and sample_key.tsv file names must have the format of "_R[12]_" to be viable.
+**WARNING!!!** Both reads.fofn and sample_key.tsv file names must have the format of `_R[12]_` to be viable.
 
 Example of `sample_key.tsv` file.
 
