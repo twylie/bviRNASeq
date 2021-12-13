@@ -38,9 +38,8 @@ The `Samplemap.csv` file has the following information for the tutorial samples.
 
 The `QC.csv` file has the following information.
 
-|----------------------------+------------------+------------------+----------------+------+---------------------+------------+---------+-----------------|
 | Library                    | GTAC Sequence ID | MGI Work Order # | Date Completed | Read | Total Bases Kb (PF) | Avg QScore | % > Q30 | Phix Error Rate |
-|----------------------------+------------------+------------------+----------------+------+---------------------+------------+---------+-----------------|
+|----------------------------|------------------|------------------|----------------|------|---------------------|------------|---------|-----------------|
 | WLAB-RNA_3_0-7X-RNA_3_0-7X |                  |          2865539 |                |    1 | "14,740,562.922"    |      35.86 |    93.5 |            0.27 |
 | WLAB-RNA_3_0-7X-RNA_3_0-7X |                  |          2865539 |                |    2 | "14,740,562.922"    |      35.56 |    91.9 |            0.42 |
 | WLAB-RNA_1-RNA_1           |                  |          2865539 |                |    1 | "6,719,779.652"     |      34.92 |    89.1 |            0.22 |
@@ -49,26 +48,25 @@ The `QC.csv` file has the following information.
 | WLAB-RNA_3-RNA_3           |                  |          2865539 |                |    2 | "9,870,639.574"     |      35.73 |    92.8 |            0.57 |
 | WLAB-RNA_1_0-7X-RNA_1_0-7X |                  |          2865539 |                |    1 | "26,453,648.928"    |      35.11 |      90 |            0.33 |
 | WLAB-RNA_1_0-7X-RNA_1_0-7X |                  |          2865539 |                |    2 | "26,453,648.928"    |      34.55 |      87 |            0.68 |
-|----------------------------+------------------+------------------+----------------+------+---------------------+------------+---------+-----------------|
 
 Right away for these data, we can see the read counts are disparate. This won’t be an issue for expression, because those values are normalized; however, keep this in mind when we look at adapter retention numbers. We will want to compare percent-of-adapter numbers among samples, etc. Also, we see between 2–5 times the target throughput of 20 million reads per sample than were originally requested.
 
-|------------------------------------------+----------------------------+------------------|
 | BAM                                      | Sample ID                  | Read Counts      |
-|------------------------------------------+----------------------------+------------------|
+|------------------------------------------|----------------------------|------------------|
 | HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001.bam | WLAB-RNA_1-RNA_1           | 44,501,852 reads |
 | HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001.bam | WLAB-RNA_1_0-7X-RNA_1_0-7X | 95,407,852 reads |
 | HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001.bam | WLAB-RNA_3-RNA_3           | 65,368,474 reads |
 | HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004.bam | WLAB-RNA_3_0-7X-RNA_3_0-7X | 97,619,622 reads |
-|------------------------------------------+----------------------------+------------------|
 
 ## RNA-Seq Pipeline Processing Steps (Commands)
 
 ### 1. [PREREQUISITE] Convert the Input Sequencing Files to Compressed FASTQ
 
-The pipeline requires paired-end, compressed FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed.
+The pipeline requires paired-end, compressed FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line, in a subsequent step.
 
 For the tutorial data set, I was given uBAM files. We will need to convert them before running the pipeline. I will copy-in the BAM files and convert them in the following command line steps.
+
+> **_NOTE:_**  The note content.
 
 NOTE: These steps have already been performed and the final 8 compressed FASTQ files are available for you here.
 
