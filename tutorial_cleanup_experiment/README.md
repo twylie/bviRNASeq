@@ -389,11 +389,19 @@ snakemake \
 --rerun-incomplete
 ```
 
+Fields that will be required to be edited by you:
+
++ `--snakefile`
++ `--cluster`
++ `--configfile`
+
 We can place this command in a shell script file. Example:
 
 ```plaintext
 /scratch1/fs1/twylie/cleanupRNASeq/cmd.pp.sh
 ```
+
+Now we may execute the final command to launch the pipeline.
 
 ```shell
 # Make the script executable.
