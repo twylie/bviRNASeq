@@ -155,11 +155,13 @@ The RNA-seq pipeline uses Kallisto to map reads to the human transcriptome. Ther
 
 https://github.com/twylie/bviRNASeq#3-human-transcriptome-reference
 
-NOTE: I've already created the required transcriptome reference file and associated index files here. This reference has already been indexed for Kallisto alignments.
+> **_NOTE:_** I've already created the required transcriptome reference file and associated index files here. This reference has already been indexed for Kallisto alignments.
 
+```plaintext
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.fai
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index
+```
 
 ### 3. [PREREQUISITE] Locate Or Create the Kraken2 Database File(s)
 
@@ -170,13 +172,15 @@ https://github.com/DerrickWood/kraken2/wiki/Manual
 
 NOTE: I've already setup a "standard" DB for this purpose here:
 
+```plaintext
 /storage1/fs1/kwylie/Active/KRAKEN/STANDARD
+```
 
 ### 4. [PREREQUISITE] Locate the Required Docker Image to Run the BVI RNA-Seq Pipeline
 
 I will be using a predefined docker image that contains all of the required software for the pipeline.
 
-NOTE: The docker image is available through dockerhub.
+> **_NOTE:_** The docker image is available through dockerhub.
 
 [[https://hub.docker.com/r/twylie/bvi_rnaseq][twylie/bvi_rnaseq]] (https://hub.docker.com/r/twylie/bvi_rnaseq)
 
@@ -186,22 +190,25 @@ We will need to choose disk space for processing our data. For this tutorial, yo
 
 When processing the data in this tutorial, I chose the following areas for my processing needs.
 
-WRITE DIRECTORY: /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
-PROCESSING DIRECTORY: /scratch1/fs1/twylie/cleanupRNASeq
+| Purpose              | Path                                                 |
+|----------------------|------------------------------------------------------|
+| WRITE DIRECTORY      | /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq|
+| PROCESSING DIRECTORY | /scratch1/fs1/twylie/cleanupRNASeq                   |
 
 ### 6. Create the FASTQ FOFN File
 
-The pipeline requires paired-end,compressed FASTQ files as input. We will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed.
+The pipeline requires paired-end,compressed FASTQ files as input. We will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files called `reads.fofn`, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed.
 
-#+begin_src sh
+```shell
 # Make the FASTQ file-of-filenames file.
 
 cd /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
 ls /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/*fastq > reads.fofn
-#+end_src
+```
 
 This contents of the fofn file looks like this:
 
+```plaintext
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1.fastq
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2.fastq
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R1.fastq
@@ -210,6 +217,7 @@ This contents of the fofn file looks like this:
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2.fastq
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1.fastq
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2.fastq
+```
 
 ### 7. Create a Sample Key for the Pipeline
 
