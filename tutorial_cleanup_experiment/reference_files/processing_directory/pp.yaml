@@ -1,0 +1,16 @@
+docker:
+  image: 'twylie/bvi_rnaseq'
+  volumes:
+    - '/scratch1/fs1/twylie'
+    - '/storage1/fs1/PTB/Active'
+    - '/storage1/fs1/kwylie/Active'
+lsf:
+  memory: '64G'
+  results dir: '/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/results'
+  cores: '100'
+  local cores: '1'
+  compute group: 'compute-kwylie'
+  queue: 'general'
+  latency wait: '20'
+  restart times: '5'
+  lsf log dir: '/scratch1/fs1/twylie/cleanupRNASeq/lsf_logs'

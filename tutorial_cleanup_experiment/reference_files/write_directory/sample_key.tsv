@@ -1,0 +1,9 @@
+FASTQ Path	Canonical ID	Set ID
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq.gz	WLAB-RNA_1-RNA_1	1
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq.gz	WLAB-RNA_1-RNA_1	1
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq.gz	WLAB-RNA_1_0-7X-RNA_1_0-7X	1
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq.gz	WLAB-RNA_1_0-7X-RNA_1_0-7X	1
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R1_.fastq.gz	WLAB-RNA_3-RNA_3	1
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R2_.fastq.gz	WLAB-RNA_3-RNA_3	1
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R1_.fastq.gz	WLAB-RNA_3_0-7X-RNA_3_0-7X	1
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2_.fastq.gz	WLAB-RNA_3_0-7X-RNA_3_0-7X	1
