@@ -170,7 +170,7 @@ We require a Kraken2 database setup for the bacterial characterization portion o
 https://github.com/twylie/bviRNASeq#7-kraken2-database
 https://github.com/DerrickWood/kraken2/wiki/Manual
 
-NOTE: I've already setup a "standard" DB for this purpose here:
+> **_NOTE:_** I've already setup a "standard" DB for this purpose here:
 
 ```plaintext
 /storage1/fs1/kwylie/Active/KRAKEN/STANDARD
@@ -182,7 +182,7 @@ I will be using a predefined docker image that contains all of the required soft
 
 > **_NOTE:_** The docker image is available through dockerhub.
 
-[[https://hub.docker.com/r/twylie/bvi_rnaseq][twylie/bvi_rnaseq]] (https://hub.docker.com/r/twylie/bvi_rnaseq)
+https://hub.docker.com/r/twylie/bvi_rnaseq
 
 ### 5. Choose Your Directories for Processing
 
@@ -221,16 +221,17 @@ This contents of the fofn file looks like this:
 
 ### 7. Create a Sample Key for the Pipeline
 
-We will be providing a sample key to the pipeline that associates FASTQ file paths to canonical ids. The file should be tab-delimited and contain the following three fields:
+We will be providing a sample key called `sample_key.tsv` to the pipeline that associates FASTQ file paths to canonical ids. The file should be tab-delimited and contain the following three fields:
 
 1. FASTQ Path: The fully qualified paths to the FASTQ files, which should be gzipped.
 2. Canonical ID: The canonical sample ids associated with the FASTQ files. The canonical ids will be used throughout the pipeline to identify the samples.
 3.  Set ID: The associated set or batch ids for the samples.
 
-IMPORTANT! Both reads.fofn and sample_key.tsv file names must have the format of "_R[12]" to be viable.
+> **_WARNING!!!_** Both reads.fofn and sample_key.tsv file names must have the format of "_R[12]" to be viable.
 
-Example of sample_key.tsv file.
+Example of `sample_key.tsv` file.
 
+```plaintext
 FASTQ Path	Canonical ID	Set ID
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq.gz	WLAB-RNA_1-RNA_1	1
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq.gz	WLAB-RNA_1-RNA_1	1
@@ -240,50 +241,51 @@ FASTQ Path	Canonical ID	Set ID
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R2_.fastq.gz	WLAB-RNA_3-RNA_3	1
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R1_.fastq.gz	WLAB-RNA_3_0-7X-RNA_3_0-7X	1
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq.gz/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2_.fastq.gz	WLAB-RNA_3_0-7X-RNA_3_0-7X	1
-
-#+begin_src sh
+```
+```shell
 # Creating the sample key for the placental RNA-seq samples:
 
 cd /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
 touch sample_key.tsv
 
 # ...now open a text editor and fill in all of the fields, while delimiting
-# with tabs. CONTENT:
-
-# FASTQ Path      Canonical ID    Set ID
-# /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1.fastq       WLAB-RNA_1-RNA_1        1
-# /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2.fastq       WLAB-RNA_1-RNA_1        1
-# /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1.fastq       WLAB-RNA_1_0-7X-RNA_1_0-7X      1
-# /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2.fastq       WLAB-RNA_1_0-7X-RNA_1_0-7X      1
-# /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R1.fastq       WLAB-RNA_3-RNA_3        1
-# /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R2.fastq       WLAB-RNA_3-RNA_3        1
-# /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R1.fastq       WLAB-RNA_3_0-7X-RNA_3_0-7X      1
-# /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2.fastq       WLAB-RNA_3_0-7X-RNA_3_0-7X      1
-#+end_src
+# with tabs.
+```
 
 ### 8. Create a Directory for Processing Results
 
-#+begin_src sh
+```shell
 # Create a directory to write pipeline results.
 
 cd /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
 mkdir results
-#+end_src
+```
 
 ### 9. Create the Configuration File for Running the Pipeline
 
 We will be passing a small configuration file that provides ancillary information for running the pipeline. The configuration file should be formatted as YAML. The configuration file will contain the following fields:
 
-processing directory : Directory path to where the pipeline should write results.
-reads fofn           : Path to the file containing a list of FASTQ paths.
-transcriptome ref    : Path to the Kallisto indexed transcriptome reference file.
-multiqc title        : Title text for the MultiQC web report.
-multiqc description  : Description text for the MultiQC web report.
-sample key           : Path to the sample key file.
-kraken db            : Path to the installed/setup Kraken2 directory.
+| Field               | Description                                               |
+|---------------------|-----------------------------------------------------------|
+|processing directory | Directory path to where the pipeline should write results.|
+|reads fofn           | Path to the file containing a list of FASTQ paths.|
+|transcriptome ref    | Path to the Kallisto indexed transcriptome reference file.|
+|multiqc title        | Title text for the MultiQC web report.|
+|multiqc description  | Description text for the MultiQC web report.|
+|sample key           | Path to the sample key file.|
+|kraken db            | Path to the installed/setup Kraken2 directory.|
 
-Open a text editor and fill-out the following fields. Save as config.yaml file name when finished. Your config file should look like the following file.
+Open a text editor and fill-out the following fields. Save as `config.yaml` file name when finished. Fields to edit include:
 
++ processing directory
++ reads fofn
++ multiqc title
++ multiqc description
++ sample key
+
+Your config file should look like the following file.
+
+```yaml
 processing directory: '/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/results'
 reads fofn: '/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/reads.fofn'
 transcriptome ref: '/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index'
@@ -291,18 +293,12 @@ multiqc title: 'RNA-seq Double-Clean-Up Experiment #1'
 multiqc description: 'Review of clean-up conditions for RNA-seq libraries.'
 sample key: '/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/sample_key.tsv'
 kraken db: '/storage1/fs1/kwylie/Active/KRAKEN/STANDARD'
+```
+Save the config as a `config.yaml` file in your WRITE DIRECTORY---example:
 
-Save the config as a config.yaml file in your WRITE DIRECTORY---example:
-
+```plaintext
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/config.yaml
-
-Fields to edit include:
-
-+ processing directory
-+ reads fofn
-+ multiqc title
-+ multiqc description
-+ sample key
+```
 
 ### 10. Setup the Snakemake Pipeline for Processing Samples
 
