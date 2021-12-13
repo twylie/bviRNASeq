@@ -21,7 +21,7 @@ Likewise: WLAB-RNA_3-RNA_3 regular clean up and WLAB-RNA_3_0-7X-RNA_3_0-7X had t
 
 Therefore, I initially collected the uBAM (unaligned sequencing reads) files and `Samplemap.csv` (sample metadata information).
 
-I do not like working directly with original BAM or sample info files---I usually (temporarily) copy the files I will be working with to another directory prior to processing the information. For a small set---like the 4 double clean-up experiment BAMs---this is feasible; for many (i.e. read hundreds) samples, this may not be possible, and I then recommend symbolically linking the files to another directly.
+I do not like working directly with original BAM or sample info files---I usually (temporarily) copy the files I will be working with to another directory prior to processing the information. For a small set---like the 4 double clean-up experiment BAMs---this is feasible; for many (i.e. read hundreds of) samples, this may not be possible, and I then recommend symbolically linking the files to another directory.
 
 ## Sequencing Read Counts and Associated Metadata
 
@@ -60,7 +60,7 @@ Right away for these data, we can see the read counts are disparate. This won’
 
 ## RNA-Seq Pipeline Processing Steps (Commands)
 
-### 1. **PREREQUISITE** Convert the Input Sequencing Files to Compressed FASTQ
+### 1. PREREQUISITE: Convert the Input Sequencing Files to Compressed FASTQ
 
 The pipeline requires paired-end, compressed FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line, in a subsequent step.
 
@@ -100,7 +100,13 @@ ls -ald *
 
 # Here we use a Docker session that has samtools installed.
 
-LSF_DOCKER_VOLUMES='/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq:/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq' bsub -Is -R 'select[mem>16GB] rusage[mem=16GB]' -G compute-twylie -q general-interactive -a 'docker(twylie/viromatch:latest)' zsh
+LSF_DOCKER_VOLUMES='/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq:/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq' \
+bsub -Is \
+-R 'select[mem>16GB] rusage[mem=16GB]' \
+-G compute-kwylie \
+-q general-interactive \
+-a 'docker(twylie/viromatch:latest)' \
+zsh
 
 # NOTE: Pairs must have the format of _R[12]_ in file name.
 
@@ -149,7 +155,7 @@ gzip HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq
 gzip HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq
 ```
 
-### 2. **PREREQUISITE** Locate Or Create the Transcriptome Reference File(s)
+### 2. PREREQUISITE: Locate Or Create the Transcriptome Reference File(s)
 
 The RNA-seq pipeline uses Kallisto to map reads to the human transcriptome. Therefore, we must have a Kallisto-indexed representation of the human transcriptome. Details for creating such a resource are outlined here:
 
@@ -163,7 +169,7 @@ https://github.com/twylie/bviRNASeq#3-human-transcriptome-reference
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index
 ```
 
-### 3. **PREREQUISITE** Locate Or Create the Kraken2 Database File(s)
+### 3. PREREQUISITE: Locate Or Create the Kraken2 Database File(s)
 
 We require a Kraken2 database setup for the bacterial characterization portion of the pipeline. More detailed instructions for creating a Kraken2 database can be found here:
 
@@ -176,7 +182,7 @@ https://github.com/DerrickWood/kraken2/wiki/Manual
 /storage1/fs1/kwylie/Active/KRAKEN/STANDARD
 ```
 
-### 4. **PREREQUISITE** Locate the Required Docker Image to Run the BVI RNA-Seq Pipeline
+### 4. PREREQUISITE: Locate the Required Docker Image to Run the BVI RNA-Seq Pipeline
 
 I will be using a predefined docker image that contains all of the required software for the pipeline.
 
@@ -209,14 +215,14 @@ ls /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/*fastq > reads.fo
 This contents of the fofn file looks like this:
 
 ```plaintext
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R1.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R2.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R1.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R1_.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R2_.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R1_.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2_.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq
 ```
 
 ### 7. Create a Sample Key for the Pipeline
@@ -227,7 +233,7 @@ We will be providing a sample key called `sample_key.tsv` to the pipeline that a
 2. Canonical ID: The canonical sample ids associated with the FASTQ files. The canonical ids will be used throughout the pipeline to identify the samples.
 3.  Set ID: The associated set or batch ids for the samples.
 
-> **_WARNING!!!_** Both reads.fofn and sample_key.tsv file names must have the format of "_R[12]" to be viable.
+> **_WARNING!!!_** Both reads.fofn and sample_key.tsv file names must have the format of "_R[12]_" to be viable.
 
 Example of `sample_key.tsv` file.
 
@@ -411,7 +417,16 @@ chmod +x /scratch1/fs1/twylie/cleanupRNASeq/cmd.pp.sh
 
 # Run the pipeline.
 
-LSF_DOCKER_VOLUMES='/storage1/fs1/kwylie/Active:/storage1/fs1/kwylie/Active /scratch1/fs1/twylie:/scratch1/fs1/twylie /storage1/fs1/PTB:/storage1/fs1/PTB' bsub -M 16G -R "select[mem>16G] rusage[mem=16G]" -G compute-kwylie -q general -e $PWD/bvi.LSF.err -o $PWD/bvi.LSF.out -a 'docker(twylie/bvi_rnaseq)' sh $PWD/cmd.pp.sh
+LSF_DOCKER_VOLUMES='/storage1/fs1/kwylie/Active:/storage1/fs1/kwylie/Active /scratch1/fs1/twylie:/scratch1/fs1/twylie /storage1/fs1/PTB:/storage1/fs1/PTB' \
+bsub \
+-M 16G \
+-R "select[mem>16G] rusage[mem=16G]" \
+-G compute-kwylie \
+-q general \
+-e $PWD/bvi.LSF.err \
+-o $PWD/bvi.LSF.out \
+-a 'docker(twylie/bvi_rnaseq)' \
+sh $PWD/cmd.pp.sh
 ```
 
 ### 12. Results
