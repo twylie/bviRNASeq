@@ -79,7 +79,7 @@ For the tutorial data set, I was given uBAM files. We will need to convert them 
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq.gz
 ```
 
-```console
+```shell
 # Copy the BAMs and convert them to FASTQ files for downstream processing.
 
 cd /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
