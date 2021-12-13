@@ -2,13 +2,13 @@
 # T.N. Wylie  <twylie@wustl.edu>
 # Sun Dec 12 13:38:41 CST 2021
 
-* BVI RNA-Seq Pipeline Tutorial: RNA Clean-Up Experiment
+# BVI RNA-Seq Pipeline Tutorial: RNA Clean-Up Experiment
 
-** Overview
+## Overview
 
 This tutorial walks through running the BVI RNA-seq pipeline on a set of 4 RNA double-cleanup experiments.There are 4 uBAMs in this experiment that will be processed. All files required for processing will be available to Wylie Lab members through this tutorial. For more in-depth, general details about running the BVI RNA-seq pipeline, see https://github.com/twylie/bviRNASeq.
 
-** Collecting Sequence Data for Processing
+## Collecting Sequence Data for Processing
 
 Before we can run the RNA-seq pipeline we must locate the sequencing data and associated metadata. The information for this experimental set was provided by K.W. via Slack:
 
@@ -21,7 +21,7 @@ Therefore, I initially collected the uBAM (unaligned sequencing reads) files and
 
 I do not like working directly with original BAM or sample info files---I usually (temporarily) copy the files I will be working with to another directory prior to processing the information. For a small set---like the 4 double clean-up experiment BAMs---this is feasible; for many (i.e. read hundreds) samples, this may not be possible, and I then recommend symbolically linking the files to another directly.
 
-** Sequencing Read Counts and Associated Metadata
+## Sequencing Read Counts and Associated Metadata
 
 We will need to synchronize the Samplemap.csv and QC.csv metadata information with our sequencing read files in steps below, but I also like to take a precursory look beforehand to familiarize myself with the data. This information links the original uBAM, or in some cases FASTQ, files with the associated sample names. It also tells how many sequencing reads to expect per sample. I like to review the uBAMs for read count and compare to the Samplemap.csv information before processing. This step is not required but is a good practice.
 
@@ -62,9 +62,9 @@ Right away for these data, we can see the read counts are disparate. This won’
 | HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004.bam | WLAB-RNA_3_0-7X-RNA_3_0-7X | 97,619,622 reads |
 |------------------------------------------+----------------------------+------------------|
 
-** RNA-Seq Pipeline Processing Steps (Commands)
+## RNA-Seq Pipeline Processing Steps (Commands)
 
-*** 1. [PREREQUISITE] Convert the Input Sequencing Files to Compressed FASTQ
+### 1. [PREREQUISITE] Convert the Input Sequencing Files to Compressed FASTQ
 
 The pipeline requires paired-end, compressed FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed.
 
@@ -151,7 +151,7 @@ gzip HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq
 gzip HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq
 #+end_src
 
-*** 2. [PREREQUISITE] Locate Or Create the Transcriptome Reference File(s)
+### 2. [PREREQUISITE] Locate Or Create the Transcriptome Reference File(s)
 
 The RNA-seq pipeline uses Kallisto to map reads to the human transcriptome. Therefore, we must have a Kallisto-indexed representation of the human transcriptome. Details for creating such a resource are outlined here:
 
@@ -163,7 +163,7 @@ NOTE: I've already created the required transcriptome reference file and associa
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.fai
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index
 
-*** 3. [PREREQUISITE] Locate Or Create the Kraken2 Database File(s)
+### 3. [PREREQUISITE] Locate Or Create the Kraken2 Database File(s)
 
 We require a Kraken2 database setup for the bacterial characterization portion of the pipeline. More detailed instructions for creating a Kraken2 database can be found here:
 
@@ -174,7 +174,7 @@ NOTE: I've already setup a "standard" DB for this purpose here:
 
 /storage1/fs1/kwylie/Active/KRAKEN/STANDARD
 
-*** 4. [PREREQUISITE] Locate the Required Docker Image to Run the BVI RNA-Seq Pipeline
+### 4. [PREREQUISITE] Locate the Required Docker Image to Run the BVI RNA-Seq Pipeline
 
 I will be using a predefined docker image that contains all of the required software for the pipeline.
 
@@ -182,7 +182,7 @@ NOTE: The docker image is available through dockerhub.
 
 [[https://hub.docker.com/r/twylie/bvi_rnaseq][twylie/bvi_rnaseq]] (https://hub.docker.com/r/twylie/bvi_rnaseq)
 
-*** 5. Choose Your Directories for Processing
+### 5. Choose Your Directories for Processing
 
 We will need to choose disk space for processing our data. For this tutorial, you will need to choose two areas for processing: 1) a directory on storage1, hereto referred to as the WRITE DIRECTORY; 2) a directory on scratch1, hereto refereed to as the PROCESSING DIRECTORY. You need relatively small space on scratch1 (< 1Mb) and significantly more space on storage1 (~25 Gb, not including original input BAM/FASTQ space).
 
@@ -191,7 +191,7 @@ When processing the data in this tutorial, I chose the following areas for my pr
 WRITE DIRECTORY: /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
 PROCESSING DIRECTORY: /scratch1/fs1/twylie/cleanupRNASeq
 
-*** 6. Create the FASTQ FOFN File
+### 6. Create the FASTQ FOFN File
 
 The pipeline requires paired-end,compressed FASTQ files as input. We will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed.
 
@@ -213,7 +213,7 @@ This contents of the fofn file looks like this:
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1.fastq
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2.fastq
 
-*** 7. Create a Sample Key for the Pipeline
+### 7. Create a Sample Key for the Pipeline
 
 We will be providing a sample key to the pipeline that associates FASTQ file paths to canonical ids. The file should be tab-delimited and contain the following three fields:
 
@@ -255,7 +255,7 @@ touch sample_key.tsv
 # /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2.fastq       WLAB-RNA_3_0-7X-RNA_3_0-7X      1
 #+end_src
 
-*** 8. Create a Directory for Processing Results
+### 8. Create a Directory for Processing Results
 
 #+begin_src sh
 # Create a directory to write pipeline results.
@@ -264,7 +264,7 @@ cd /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
 mkdir results
 #+end_src
 
-*** 9. Create the Configuration File for Running the Pipeline
+### 9. Create the Configuration File for Running the Pipeline
 
 We will be passing a small configuration file that provides ancillary information for running the pipeline. The configuration file should be formatted as YAML. The configuration file will contain the following fields:
 
@@ -298,7 +298,7 @@ Fields to edit include:
 + multiqc description
 + sample key
 
-*** 10. Setup the Snakemake Pipeline for Processing Samples
+### 10. Setup the Snakemake Pipeline for Processing Samples
 
 If all of the previous tutorial steps listed above have been performed, we are ready to process the samples. We must download the Snakemake pipeline code for processing. The Snakefile (bvi_rnaseq.smk) contains the rules for running the pipeline steps. The Snakefile is static and will require no updating for running the pipeline.
 
@@ -365,7 +365,7 @@ Fields to edit will include:
 + results dir
 + lsf log dir
 
-*** 11. Launch the Pipeline (Parallel Processing)
+### 11. Launch the Pipeline (Parallel Processing)
 
 We are ready to launch the pipeline. The Snakemake command to run the pipeline looks like this.
 
@@ -399,7 +399,7 @@ cd /scratch1/fs1/twylie/cleanupRNASeq
 LSF_DOCKER_VOLUMES='/storage1/fs1/kwylie/Active:/storage1/fs1/kwylie/Active /scratch1/fs1/twylie:/scratch1/fs1/twylie /storage1/fs1/PTB:/storage1/fs1/PTB' bsub -M 16G -R "select[mem>16G] rusage[mem=16G]" -G compute-kwylie -q general -e $PWD/bvi.LSF.err -o $PWD/bvi.LSF.out -a 'docker(twylie/bvi_rnaseq)' sh $PWD/cmd.pp.sh
 #+end_src
 
-*** 12. Results
+### 12. Results
 
 Once finished, review results. See https://github.com/twylie/bviRNASeq#results for details on BVI RNA-seq pipeline output.
 
