@@ -60,7 +60,7 @@ Right away for these data, we can see the read counts are disparate. This won’
 
 ## RNA-Seq Pipeline Processing Steps (Commands)
 
-### 1. [PREREQUISITE] Convert the Input Sequencing Files to Compressed FASTQ
+### 1. **PREREQUISITE** Convert the Input Sequencing Files to Compressed FASTQ
 
 The pipeline requires paired-end, compressed FASTQ files as input. You will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files, one filename per line, in a subsequent step.
 
@@ -149,7 +149,7 @@ gzip HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq
 gzip HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq
 ```
 
-### 2. [PREREQUISITE] Locate Or Create the Transcriptome Reference File(s)
+### 2. **PREREQUISITE** Locate Or Create the Transcriptome Reference File(s)
 
 The RNA-seq pipeline uses Kallisto to map reads to the human transcriptome. Therefore, we must have a Kallisto-indexed representation of the human transcriptome. Details for creating such a resource are outlined here:
 
@@ -163,7 +163,7 @@ https://github.com/twylie/bviRNASeq#3-human-transcriptome-reference
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index
 ```
 
-### 3. [PREREQUISITE] Locate Or Create the Kraken2 Database File(s)
+### 3. **PREREQUISITE** Locate Or Create the Kraken2 Database File(s)
 
 We require a Kraken2 database setup for the bacterial characterization portion of the pipeline. More detailed instructions for creating a Kraken2 database can be found here:
 
@@ -176,7 +176,7 @@ https://github.com/DerrickWood/kraken2/wiki/Manual
 /storage1/fs1/kwylie/Active/KRAKEN/STANDARD
 ```
 
-### 4. [PREREQUISITE] Locate the Required Docker Image to Run the BVI RNA-Seq Pipeline
+### 4. **PREREQUISITE** Locate the Required Docker Image to Run the BVI RNA-Seq Pipeline
 
 I will be using a predefined docker image that contains all of the required software for the pipeline.
 
