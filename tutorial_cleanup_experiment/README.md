@@ -1,6 +1,6 @@
-# BVI RNA-seq Tutorial
-# T.N. Wylie  <twylie@wustl.edu>
-# Sun Dec 12 13:38:41 CST 2021
+<!-- BVI RNA-seq Tutorial -->
+<!-- T.N. Wylie  <twylie@wustl.edu> -->
+<!-- Sun Dec 12 13:38:41 CST 2021 -->
 
 # BVI RNA-Seq Pipeline Tutorial: RNA Clean-Up Experiment
 
@@ -10,33 +10,33 @@ This tutorial walks through running the BVI RNA-seq pipeline on a set of 4 RNA d
 
 ## Collecting Sequence Data for Processing
 
-Before we can run the RNA-seq pipeline we must locate the sequencing data and associated metadata. The information for this experimental set was provided by K.W. via Slack:
+Before we can run the RNA-seq pipeline we must locate the sequencing data and associated metadata. The information for this experimental set was provided by K.M.W. via Slack:
 
+```plaintext
 Here's the path: "/storage1/fs1/PTB/Active/2021_11_23_Test_RNA_Libraries_Remove_Small_Stuff"
 Jane named the samples very clearly, and the names are in the Samplemap.csv file in that directory.
 example: WLAB-RNA_1-RNA_1 had the regular clean up and WLAB-RNA_1_0-7X-RNA_1_0-7X is the same sample with a second 0.7x clean up added.
 Likewise: WLAB-RNA_3-RNA_3 regular clean up and WLAB-RNA_3_0-7X-RNA_3_0-7X had the extra clean up
+```
 
-Therefore, I initially collected the uBAM (unaligned sequencing reads) files and Samplemap.csv (sample metadata information).
+Therefore, I initially collected the uBAM (unaligned sequencing reads) files and `Samplemap.csv` (sample metadata information).
 
 I do not like working directly with original BAM or sample info files---I usually (temporarily) copy the files I will be working with to another directory prior to processing the information. For a small set---like the 4 double clean-up experiment BAMs---this is feasible; for many (i.e. read hundreds) samples, this may not be possible, and I then recommend symbolically linking the files to another directly.
 
 ## Sequencing Read Counts and Associated Metadata
 
-We will need to synchronize the Samplemap.csv and QC.csv metadata information with our sequencing read files in steps below, but I also like to take a precursory look beforehand to familiarize myself with the data. This information links the original uBAM, or in some cases FASTQ, files with the associated sample names. It also tells how many sequencing reads to expect per sample. I like to review the uBAMs for read count and compare to the Samplemap.csv information before processing. This step is not required but is a good practice.
+We will need to synchronize the `Samplemap.csv` and `QC.csv` metadata information with our sequencing read files in steps below, but I also like to take a precursory look beforehand to familiarize myself with the data. This information links the original uBAM, or in some cases FASTQ, files with the associated sample names. It also tells how many sequencing reads to expect per sample. I like to review the uBAMs for read count and compare to the `Samplemap.csv` information before processing. This step is not required but is a good practice.
 
-The Samplemap.csv file has the following information for the tutorial samples.
+The `Samplemap.csv` file has the following information for the tutorial samples.
 
-|------------------------------------------+--------------+-----------------------+-------------+-------------+----------------------------+---------+-------------+--------------+----------------------------+-----------------+------------------+---------------+------------+---------+-------------------+--------------------|
 | File Name                                | Flow Cell ID | Index Sequence        | Lane Number | Read Number | Sample Name                | Species | Tissue Type | Library Type | Library Name               | Completion Date | Total Bases Kb   | % PF Clusters | Avg QScore | % > Q30 | % Phix Error Rate | Protocol           |
-|------------------------------------------+--------------+-----------------------+-------------+-------------+----------------------------+---------+-------------+--------------+----------------------------+-----------------+------------------+---------------+------------+---------+-------------------+--------------------|
+|------------------------------------------|--------------|-----------------------|-------------|-------------|----------------------------|---------|-------------|--------------|----------------------------|-----------------|------------------|---------------|------------|---------|-------------------|--------------------|
 | HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001.bam | HHYYVDSX2    | CGCTCATTAT-ACTATAGCCT |           1 | N/A         | WLAB-RNA_1-RNA_1           | human   |             | cdna library | WLAB-RNA_1-RNA_1           |      2021-11-14 | "6,719,779.652"  |         78.47 |      34.99 |    89.5 |              0.57 | Project Management |
 | HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001.bam | HTMWVDSX2    | CGCTCATTAT-ACTATAGCCT |           1 | N/A         | WLAB-RNA_1_0-7X-RNA_1_0-7X | human   |             | cdna library | WLAB-RNA_1_0-7X-RNA_1_0-7X |      2021-11-18 | "26,453,648.928" |         77.76 |      34.55 |      87 |              0.68 | Project Management |
 | HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001.bam | HHYYVDSX2    | GAGATTCCAT-ACTATAGCCT |           1 | N/A         | WLAB-RNA_3-RNA_3           | human   |             | cdna library | WLAB-RNA_3-RNA_3           |      2021-11-14 | "9,870,639.574"  |         78.47 |      35.73 |    92.8 |              0.57 | Project Management |
 | HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004.bam | HTLTYDSX2    | GAGATTCCAT-ACTATAGCCT |           4 | N/A         | WLAB-RNA_3_0-7X-RNA_3_0-7X | human   |             | cdna library | WLAB-RNA_3_0-7X-RNA_3_0-7X |      2021-11-19 | "14,740,562.922" |         79.14 |      35.56 |    91.9 |              0.42 | Project Management |
-|------------------------------------------+--------------+-----------------------+-------------+-------------+----------------------------+---------+-------------+--------------+----------------------------+-----------------+------------------+---------------+------------+---------+-------------------+--------------------|
 
-The QC.csv file has the following information.
+The `QC.csv` file has the following information.
 
 |----------------------------+------------------+------------------+----------------+------+---------------------+------------+---------+-----------------|
 | Library                    | GTAC Sequence ID | MGI Work Order # | Date Completed | Read | Total Bases Kb (PF) | Avg QScore | % > Q30 | Phix Error Rate |
