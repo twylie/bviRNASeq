@@ -108,7 +108,7 @@ bsub -Is \
 -a 'docker(twylie/viromatch:latest)' \
 zsh
 
-# NOTE: Pairs must have the format of \_R[12]\_ in file name.
+# NOTE: Pairs must have the format of _\__R[12]_\__ in file name.
 
 # Convert BAMs to FASTQ files. Note that we want the naming convention of
 # R_[12].fastq.gz for processing.
