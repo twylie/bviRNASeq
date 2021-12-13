@@ -66,10 +66,9 @@ The pipeline requires paired-end, compressed FASTQ files as input. You will supp
 
 For the tutorial data set, I was given uBAM files. We will need to convert them before running the pipeline. I will copy-in the BAM files and convert them in the following command line steps.
 
-> **_NOTE:_**  The note content.
+> **_NOTE:_** These steps have already been performed and the final 8 compressed FASTQ files are available for you here.
 
-NOTE: These steps have already been performed and the final 8 compressed FASTQ files are available for you here.
-
+```plaintext
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq.gz
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq.gz
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R1_.fastq.gz
@@ -78,8 +77,9 @@ NOTE: These steps have already been performed and the final 8 compressed FASTQ f
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2_.fastq.gz
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq.gz
 /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq.gz
+```
 
-#+begin_src sh
+```console
 # Copy the BAMs and convert them to FASTQ files for downstream processing.
 
 cd /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
@@ -147,7 +147,7 @@ gzip HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R1_.fastq
 gzip HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2_.fastq
 gzip HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq
 gzip HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq
-#+end_src
+```
 
 ### 2. [PREREQUISITE] Locate Or Create the Transcriptome Reference File(s)
 
