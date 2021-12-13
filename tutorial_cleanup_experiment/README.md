@@ -376,7 +376,7 @@ Fields to edit will include:
 
 We are ready to launch the pipeline. The Snakemake command to run the pipeline looks like this.
 
-#+begin_src sh
+```shell
 snakemake \
 --snakefile /scratch1/fs1/twylie/cleanupRNASeq/bvi_rnaseq.smk \
 --cluster /scratch1/fs1/twylie/cleanupRNASeq/submit_lsf.py \
@@ -387,24 +387,24 @@ snakemake \
 --latency-wait 20 \
 -p \
 --rerun-incomplete
-#+end_src
+```
 
 We can place this command in a shell script file. Example:
 
+```plaintext
 /scratch1/fs1/twylie/cleanupRNASeq/cmd.pp.sh
+```
 
-#+begin_src sh
+```shell
 # Make the script executable.
 
+cd /scratch1/fs1/twylie/cleanupRNASeq
 chmod +x /scratch1/fs1/twylie/cleanupRNASeq/cmd.pp.sh
-#+end_src
 
-#+begin_src sh
 # Run the pipeline.
 
-cd /scratch1/fs1/twylie/cleanupRNASeq
 LSF_DOCKER_VOLUMES='/storage1/fs1/kwylie/Active:/storage1/fs1/kwylie/Active /scratch1/fs1/twylie:/scratch1/fs1/twylie /storage1/fs1/PTB:/storage1/fs1/PTB' bsub -M 16G -R "select[mem>16G] rusage[mem=16G]" -G compute-kwylie -q general -e $PWD/bvi.LSF.err -o $PWD/bvi.LSF.out -a 'docker(twylie/bvi_rnaseq)' sh $PWD/cmd.pp.sh
-#+end_src
+```
 
 ### 12. Results
 
@@ -412,8 +412,7 @@ Once finished, review results. See https://github.com/twylie/bviRNASeq#results f
 
 I like to move the output over to my laptop for review at this point. To do so, I run the following command on the RIS volume side.
 
-#+begin_src sh
-
+```shell
 # Compressing the results to copy over to a laptop for review. We are skipping
 # the Kraken ".out" files, as they are very large.
 
@@ -425,4 +424,4 @@ tar cvfz results.tar.gz --exclude '*.out' results/
 scp twylie@compute1-client-1.ris.wustl.edu:/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/results.tar.gz .
 tar xvfz results.tar.gz_src
 cd results
-#+end_src
+```
