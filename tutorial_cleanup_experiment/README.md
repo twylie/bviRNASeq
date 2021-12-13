@@ -203,6 +203,22 @@ When processing the data in this tutorial, I chose the following areas for my pr
 
 **WARNING!!!* Files in `scratch1` are only retained for 28 days before being automatically removed by the system. Make sure to copy or backup any files you wish to retain from this area for future reference.
 
+Prior to running the pipeline, it is a good idea to check how much disk space is available in the directories where you are wanting to write pipeline results.
+
+```shell
+cd /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq
+df -kh .
+
+# Filesystem      Size  Used Avail Use% Mounted on
+# rdcw-fs1         25T   24T  1.8T  94% /rdcw/fs1
+
+cd /scratch1/fs1/twylie/cleanupRNASeq
+df -kh .
+
+# Filesystem      Size  Used Avail Use% Mounted on
+# scratch1-fs1    389T  223T  166T  58% /scratch1/fs1
+```
+
 ### 6. Create the FASTQ FOFN File
 
 The pipeline requires paired-end,compressed FASTQ files as input. We will supply the pipeline a file-of-filenames (fofn) listing the FASTQ files called `reads.fofn`, one filename per line. Each FASTQ should have the fully qualified path to the file on disk listed.
@@ -217,14 +233,14 @@ ls /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/*fastq > reads.fo
 This contents of the fofn file looks like this:
 
 ```plaintext
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R1_.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R2_.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R1_.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2_.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq
-/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R1_.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HHYYVDSX2_GAGATTCCAT-ACTATAGCCT_L001_R2_.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R1_.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTLTYDSX2_GAGATTCCAT-ACTATAGCCT_L004_R2_.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R1_.fastq.gz
+/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/fastq/HTMWVDSX2_CGCTCATTAT-ACTATAGCCT_L001_R2_.fastq.gz
 ```
 
 ### 7. Create a Sample Key for the Pipeline
@@ -379,6 +395,16 @@ Fields to edit will include:
 + volumes
 + results dir
 + lsf log dir
+
+If you are going to use the reference tutorial files as templates for editing, do not copy and paste them directly from the GitHub web site, as this may introduce hidden characters and spacing issues in the tab-delimited files. Instead, pull them from the local GitHub repository you cloned above.
+
+```plaintext
+src/bviRNASeq/tutorial_cleanup_experiment/reference_files/processing_directory/pp.yaml
+src/bviRNASeq/tutorial_cleanup_experiment/reference_files/processing_directory/cmd.pp.sh
+src/bviRNASeq/tutorial_cleanup_experiment/reference_files/write_directory/config.yaml
+src/bviRNASeq/tutorial_cleanup_experiment/reference_files/write_directory/sample_key.tsv
+src/bviRNASeq/tutorial_cleanup_experiment/reference_files/write_directory/reads.fofn
+```
 
 ### 11. Launch the Pipeline (Parallel Processing)
 
