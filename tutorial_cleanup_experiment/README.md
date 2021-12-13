@@ -1,6 +1,6 @@
 <!-- BVI RNA-seq Tutorial -->
 <!-- T.N. Wylie  <twylie@wustl.edu> -->
-<!-- Sun Dec 12 13:38:41 CST 2021 -->
+<!-- Mon Dec 13 09:35:59 CST 2021 -->
 
 # BVI RNA-Seq Pipeline Tutorial: RNA Clean-Up Experiment
 
@@ -19,7 +19,7 @@ example: WLAB-RNA_1-RNA_1 had the regular clean up and WLAB-RNA_1_0-7X-RNA_1_0-7
 Likewise: WLAB-RNA_3-RNA_3 regular clean up and WLAB-RNA_3_0-7X-RNA_3_0-7X had the extra clean up
 ```
 
-Therefore, I initially collected the uBAM (unaligned sequencing reads) files and `Samplemap.csv` (sample metadata information).
+Therefore, I initially collected the uBAM (unaligned sequencing reads) files and `Samplemap.csv` and `QC.csv` (sample metadata information).
 
 I do not like working directly with original BAM or sample info files---I usually (temporarily) copy the files I will be working with to another directory prior to processing the information. For a small set---like the 4 double clean-up experiment BAMs---this is feasible; for many (i.e. read hundreds of) samples, this may not be possible, and I then recommend symbolically linking the files to another directory.
 
@@ -192,7 +192,7 @@ https://hub.docker.com/r/twylie/bvi_rnaseq
 
 ### 5. Choose Your Directories for Processing
 
-We will need to choose disk space for processing our data. For this tutorial, you will need to choose two areas for processing: 1) a directory on storage1, hereto referred to as the WRITE DIRECTORY; 2) a directory on scratch1, hereto refereed to as the PROCESSING DIRECTORY. You need relatively small space on scratch1 (< 1Mb) and significantly more space on storage1 (~25 Gb, not including original input BAM/FASTQ space).
+We will need to choose disk space for processing our data. For this tutorial, you will need to choose two areas for processing: 1) a directory on `storage1`, hereto referred to as the WRITE DIRECTORY; 2) a directory on `scratch1`, hereto refereed to as the PROCESSING DIRECTORY. You need relatively small space on `scratch1` (< 1Mb) and significantly more space on `storage1` (~25 Gb, not including original input BAM/FASTQ space).
 
 When processing the data in this tutorial, I chose the following areas for my processing needs.
 
@@ -200,6 +200,8 @@ When processing the data in this tutorial, I chose the following areas for my pr
 |----------------------|------------------------------------------------------|
 | WRITE DIRECTORY      | /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq|
 | PROCESSING DIRECTORY | /scratch1/fs1/twylie/cleanupRNASeq                   |
+
+**WARNING!!!* Files in `scratch1` are only retained for 28 days before being automatically removed by the system. Make sure to copy or backup any files you wish to retain from this area for future reference.
 
 ### 6. Create the FASTQ FOFN File
 
@@ -314,7 +316,7 @@ There are two modes for running the pipeline: 1) single processing; 2) parallel 
 
 Running the pipeline in parallel processing mode requires a little more setup. We will be adding another configuration YAML file specific for parallel processing. We will also be adding a small submitter script that helps submit individual jobs on the LSF server, via Snakemake.
 
-We will now be working in the PROCESSING DIRECTORY on fast scratch1 space. Example:
+We will now be working in the PROCESSING DIRECTORY on fast `scratch1` space. Example:
 
 ```plaintext
 /scratch1/fs1/twylie/cleanupRNASeq
@@ -349,7 +351,7 @@ The `bvi_rnaseq.smk` and `submit_lsf.py` files run the BVI RNA-seq pipeline. You
 
 The `pp.yaml` file is a configuration file, and will require editing for our processing needs. You may use the `pp.yaml` file as a template and edit it for your processing. It is very important to have both the `pp.yaml` and `submit_lsf.py` script in the same directory when processing, as the submitter script looks for the configuration file in its own directory.
 
-> **_NOTE:_** Kraken2 is a memory hog. I had to use 64 GB of RAM to get it to process our tutrial RNA-seq samples. 
+> **_NOTE:_** Kraken2 is a memory hog. I had to use 64 GB of RAM to get it to process our tutrial RNA-seq samples.
 
 The `pp.yaml` file looks like this. Edit as needed.
 
@@ -447,4 +449,16 @@ tar cvfz results.tar.gz --exclude '*.out' results/
 scp twylie@compute1-client-1.ris.wustl.edu:/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/results.tar.gz .
 tar xvfz results.tar.gz_src
 cd results
+```
+
+Also, I usually copy the files from `scratch1` to `storage1` for future reference.
+
+```shell
+cd /scratch1/fs1/twylie/cleanupRNASeq
+mkdir /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/scratch1
+cp bvi.LSF.err /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/scratch1
+cp bvi.LSF.out /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/scratch1
+cp cmd.pp.sh /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/scratch1
+cp -pr lsf_logs /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/scratch1
+cp pp.yaml /storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/scratch1
 ```
