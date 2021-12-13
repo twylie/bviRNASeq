@@ -108,7 +108,7 @@ bsub -Is \
 -a 'docker(twylie/viromatch:latest)' \
 zsh
 
-# NOTE: Pairs must have the format of _\__R[12]_\__ in file name.
+# WARNING!!! Pairs must have the format of _R[12]_ in file name.
 
 # Convert BAMs to FASTQ files. Note that we want the naming convention of
 # R_[12].fastq.gz for processing.
@@ -233,7 +233,7 @@ We will be providing a sample key called `sample_key.tsv` to the pipeline that a
 2. Canonical ID: The canonical sample ids associated with the FASTQ files. The canonical ids will be used throughout the pipeline to identify the samples.
 3.  Set ID: The associated set or batch ids for the samples.
 
-> **_WARNING!!!_** Both reads.fofn and sample_key.tsv file names must have the format of "_R[12]_" to be viable.
+**WARNING!!!** Both reads.fofn and sample_key.tsv file names must have the format of "_R[12]_" to be viable.
 
 Example of `sample_key.tsv` file.
 
