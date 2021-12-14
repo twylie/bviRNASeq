@@ -385,7 +385,7 @@ lsf:
   local cores: '1'
   compute group: 'compute-kwylie'
   queue: 'general'
-  latency wait: '20'
+  latency wait: '60'
   restart times: '5'
   lsf log dir: '/scratch1/fs1/twylie/cleanupRNASeq/lsf_logs'
 ```
@@ -418,7 +418,7 @@ snakemake \
 --cores 100 \
 --local-cores 1 \
 --restart-times 5 \
---latency-wait 20 \
+--latency-wait 60 \
 -p \
 --rerun-incomplete
 ```
