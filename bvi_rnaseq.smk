@@ -15,6 +15,7 @@ import re
 OUTDIR = config['processing directory']
 READS_FOFN = config['reads fofn']
 SAMPLE_KEY = config['sample key']
+ANNOTATION = config['transcriptome annotation']
 
 # Get a set of the individual FASTQ files.
 
@@ -203,6 +204,7 @@ rule merge_kallisto_abundances:
         cmd = ' '.join([
             'merge_kallisto_abundance.py',
             '--kallistodir ' + KALLISTO_OUTDIR,
+            '--annotation ' + ANNOTATION,
             '--output {output}' 
         ])
         shell(cmd)

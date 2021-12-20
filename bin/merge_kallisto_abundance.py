@@ -47,9 +47,17 @@ def eval_cli_arguments():
 
     required_group.add_argument(
         '--output',
-        metavar='DIR',
+        metavar='FILE',
         action='store',
         help='Path to write the merged abundance file.',
+        required=True
+    )
+
+    required_group.add_argument(
+        '--annotation',
+        metavar='FILE',
+        action='store',
+        help='Path to the transcriptome annotation file.',
         required=True
     )
 
@@ -83,6 +91,26 @@ def merge_abundances(abundance):
     return df_merged
 
 
+def annotated_abundances(arguments, df):
+
+    df_annotation = pd.read_csv(arguments.annotation, index_col='transcript_id', sep='\t')
+
+    annotated_abundance = dict()
+
+    for id_ in df.index:
+        target_id = df.loc[id_]['target_id']
+        df_annotation.loc[target_id]  # annotation series
+        df.loc[id_]  # abundance series
+        abundance_dict = df.loc[id_].to_dict()
+        annotation_dict = df_annotation.loc[target_id].to_dict()
+        annotation_dict.update(abundance_dict)
+        annotated_abundance.update({id_: annotation_dict})
+
+    df_annotated_abundance = pd.DataFrame.from_dict(annotated_abundance).T
+
+    return df_annotated_abundance
+
+
 ###############################################################################
 #                                     MAIN                                    #
 ###############################################################################
@@ -97,6 +125,7 @@ if __name__ == '__main__':
     arguments = eval_cli_arguments()
     abundance = determine_sample_ids(arguments)
     df = merge_abundances(abundance)
+    df = annotated_abundances(arguments, df)
     df.to_csv(arguments.output, sep='\t')
 
 
