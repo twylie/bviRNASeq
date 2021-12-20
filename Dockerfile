@@ -41,7 +41,8 @@ zile
 
 # Pandas ######################################################################
 
-RUN python3.7 -m pip install pandas
+RUN python3.7 -m pip install --upgrade pip setuptools wheel && \
+pip install pandas
 
 # Kallisto ####################################################################
 
