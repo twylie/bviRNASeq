@@ -173,9 +173,7 @@ Additionally, we will need the associated transcriptome annotation file. This fi
 
 https://github.com/twylie/bviRNASeq/blob/main/bin/ensembl_to_dataframes.py
 
-> **_NOTE:_** I've already created the required transcriptome annotation reference file.
-
-The fields in the annotation file are as follows, per unique transcript id:
+The fields in the resultant annotation file are as follows, per unique transcript id:
 
 + transcript_id	
 + seq_type
@@ -185,6 +183,8 @@ The fields in the annotation file are as follows, per unique transcript id:
 + transcript_biotype
 + gene_symbol
 + description
+
+> **_NOTE:_** I've already created the required transcriptome annotation reference file.
 
 ```plaintext
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.terse.DF.tsv
