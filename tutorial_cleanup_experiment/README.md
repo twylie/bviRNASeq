@@ -315,6 +315,7 @@ We will be passing a small configuration file that provides ancillary informatio
 |processing directory | Directory path to where the pipeline should write results.|
 |reads fofn           | Path to the file containing a list of FASTQ paths.|
 |transcriptome ref    | Path to the Kallisto indexed transcriptome reference file.|
+|transcriptome annotation | Path to the transcriptome reference annotation file.|
 |multiqc title        | Title text for the MultiQC web report.|
 |multiqc description  | Description text for the MultiQC web report.|
 |sample key           | Path to the sample key file.|
@@ -334,6 +335,7 @@ Your config file should look like the following file.
 processing directory: '/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/results'
 reads fofn: '/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/reads.fofn'
 transcriptome ref: '/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index'
+transcriptome annotation: '/storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.terse.DF.tsv'
 multiqc title: 'RNA-seq Double-Clean-Up Experiment #1'
 multiqc description: 'Review of clean-up conditions for RNA-seq libraries.'
 sample key: '/storage1/fs1/PTB/Active/twylieAnalysis/cleanupRNASeq/sample_key.tsv'
