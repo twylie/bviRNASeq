@@ -169,6 +169,10 @@ https://github.com/twylie/bviRNASeq#3-human-transcriptome-reference
 /storage1/fs1/PTB/Active/twylieAnalysis/bviRNASeq/analysisReview/transcriptome_reference/Homo_sapiens.GRCh38.cdna.all.fa.index
 ```
 
+Additionally, we will need the associated transcriptome annotation file. This file is created by parsing the `Homo_sapiens.GRCh38.cdna.all.fa` file listed above and converting the FASTA header information into a readily-usable dataframe. There is a conversion script for this task here: 
+
+https://github.com/twylie/bviRNASeq/blob/main/bin/ensembl_to_dataframes.py
+
 ### 3. PREREQUISITE: Locate Or Create the Kraken2 Database File(s)
 
 We require a Kraken2 database setup for the bacterial characterization portion of the pipeline. More detailed instructions for creating a Kraken2 database can be found here:
