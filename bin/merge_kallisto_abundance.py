@@ -3,6 +3,7 @@
 import argparse
 import pandas as pd
 import os
+import re
 
 version = '1.0'
 
@@ -49,7 +50,7 @@ def eval_cli_arguments():
         '--output',
         metavar='FILE',
         action='store',
-        help='Path to write the merged abundance file.',
+        help='Path to write the merged, annotated abundance file.',
         required=True
     )
 
@@ -91,24 +92,58 @@ def merge_abundances(abundance):
     return df_merged
 
 
-def annotated_abundances(arguments, df):
+def write_annotated_merged_abundances(arguments):
 
     df_annotation = pd.read_csv(arguments.annotation, index_col='transcript_id', sep='\t')
 
-    annotated_abundance = dict()
+    out = re.sub('.tsv', '.annotated.tsv', arguments.output)
+    out_fh = open(out, 'w')
 
-    for id_ in df.index:
-        target_id = df.loc[id_]['target_id']
-        df_annotation.loc[target_id]  # annotation series
-        df.loc[id_]  # abundance series
-        abundance_dict = df.loc[id_].to_dict()
-        annotation_dict = df_annotation.loc[target_id].to_dict()
-        annotation_dict.update(abundance_dict)
-        annotated_abundance.update({id_: annotation_dict})
+    out_fh.write(
+        '\t'.join([
+            'sample_id',
+            'target_id',
+            'length',
+            'eff_length',
+            'est_counts',
+            'tpm',
+            'transcript_id',
+            'seq_type',
+            'location',
+            'gene',
+            'gene_biotype',
+            'transcript_biotype',
+            'gene_symbol',
+            'description'
+        ]) + '\n'
+    )
 
-    df_annotated_abundance = pd.DataFrame.from_dict(annotated_abundance).T
+    with open(arguments.output, 'r') as fh:
+        for line in fh:
+            # [0] sample id
+            # [1] target_id
+            # [2] length
+            # [3] eff_length
+            # [4] est_counts
+            # [5] tpm
+            line = line.strip()
+            abundance_fields = line.split('\t')
+            target_id = abundance_fields[1]
+            if target_id != 'target_id':
+                # [0] transcript_id
+                # [1] seq_type
+                # [2] location
+                # [3] gene
+                # [4] gene_biotype
+                # [5] transcript_biotype
+                # [6] gene_symbol
+                # [7] description
+                annotation_fields = list(df_annotation.loc[target_id])
+                annotation_fields.insert(0, target_id)
+                fields = abundance_fields + annotation_fields
+                out_fh.write('\t'.join(map(str, fields)) + '\n')
 
-    return df_annotated_abundance
+    return
 
 
 ###############################################################################
@@ -125,8 +160,7 @@ if __name__ == '__main__':
     arguments = eval_cli_arguments()
     abundance = determine_sample_ids(arguments)
     df = merge_abundances(abundance)
-    df = annotated_abundances(arguments, df)
     df.to_csv(arguments.output, sep='\t')
-
+    write_annotated_merged_abundances(arguments)
 
 # __END__
